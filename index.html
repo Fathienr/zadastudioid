@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZADA STUDIO — Creative Visual Solution</title>
+<meta name="description" content="ZADA Studio adalah perusahaan creative visual solution yang menghadirkan tiga layanan unggulan: Foto Studio, Photo Booth, dan Yearbook. Solusi dokumentasi visual profesional untuk individu, korporat, dan institusi pendidikan.">
+<link rel="icon" type="image/png" href="zadastudio.png" />
+<link rel="apple-touch-icon" href="zadastudio.png" />
+<link rel="stylesheet" href="css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Lottie Player Support -->
+<script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.4/dist/lottie-player.js"></script>
+</head>
+<body>
+
+<!-- Loader -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__wrap">
+    <dotlottie-player src="js/loader.json" background="transparent" speed="1" style="width: 160px; height: 160px; margin: 0 auto;" loop autoplay></dotlottie-player>
+    <p class="loader__word"><b>ZADA</b> STUDIO</p>
+  </div>
+</div>
+
+<!-- Scroll progress bar -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- Custom cursor (desktop) -->
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+<!-- Navbar -->
+<header class="navbar" id="navbar">
+  <div class="container navbar__inner">
+    <a href="#home" class="navbar__brand">
+      <img src="zadastudio.png" alt="ZADA STUDIO Logo" class="navbar__brand-mark" />
+      <span class="navbar__brand-name">ZADA STUDIO<span>Creative Visual Solution</span></span>
+    </a>
+
+    <nav class="navbar__links" aria-label="Navigasi utama">
+      <a href="#home" class="navbar__link is-active">Beranda</a>
+      <a href="#services" class="navbar__link">Layanan</a>
+      <a href="#contact" class="navbar__link">Contact</a>
+      <a href="admin-login.html" class="nav-cta">Admin</a>
+    </nav>
+
+    <button class="navbar__toggle" id="navToggle" aria-label="Buka menu navigasi">
+      &#9776;
+    </button>
+  </div>
+
+  <div class="navbar__mobile" id="navMobile">
+    <button class="navbar__mobile-close" id="navMobileClose" aria-label="Tutup menu">&times;</button>
+    <a href="#home">Beranda</a>
+    <a href="#services">Layanan</a>
+    <a href="#contact">Contact</a>
+    <a href="admin-login.html" style="color: var(--accent-300);">Admin</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="home">
+    <div class="hero__bg">
+      <span class="blob blob--1"></span>
+      <span class="blob blob--2"></span>
+      <div class="mesh-grid"></div>
+    </div>
+
+    <div class="container hero__inner">
+      <div class="hero-copy">
+        <div class="pill"><span class="dot"></span> ZADA STUDIO</div>
+
+        <h1>
+          <span class="typewriter-line-1">Merangkai Visual,</span><br>
+          <span class="typewriter-line-2 text-gradient gradient-anim">Menghadirkan Cerita.</span>
+        </h1>
+        <span class="hero__tagline">Creative Visual Solution</span>
+
+        <p>
+          Kami adalah perusahaan solusi visual profesional yang menghadirkan layanan Foto Studio, Photo Booth, dan Yearbook melayani individu, korporat, hingga institusi pendidikan di seluruh Indonesia.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#services" class="btn btn-primary">
+            Lihat Layanan Kami
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="hero-stats-item"><b>500+</b><span>Proyek Selesai</span></div>
+          <div class="hero-stats-item"><b>100+</b><span>Klien Puas</span></div>
+          <div class="hero-stats-item"><b>20+</b><span>Sekolah Mitra</span></div>
+          <div class="hero-stats-item"><b>10+</b><span>Tahun Pengalaman</span></div>
+        </div>
+      </div>
+
+      <div class="hero-card-wrapper">
+        <div class="hero-logo-card">
+          <div class="hero-logo-card__glow"></div>
+          <div class="hero-logo-card__inner">
+            <img src="zadastudio.png" alt="ZADA STUDIO Logo" class="hero-logo-card__img" />
+            <div class="hero-logo-card__badge">
+              <span class="hero-logo-card__dot"></span> ZADA STUDIO
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-head text-center">
+        <span class="eyebrow">Tentang Kami</span>
+        <h2>Satu Perusahaan, <span class="text-gradient">Tiga Layanan Visual</span></h2>
+        <p class="lead">
+          ZADA Studio bergerak di bidang <em>creative visual solution</em>
+          memayungi tim fotografi, produksi media, dan dokumentasi profesional yang
+          bekerja secara terpadu untuk menghadirkan hasil visual berkualitas tinggi.
+        </p>
+      </div>
+
+      <div class="process" style="margin-top: 2rem;">
+        <li style="list-style:none;">
+          <h3>&#10003; Foto Studio</h3>
+          <p>Fotografi &amp; produksi media profesional untuk individu, wisuda, keluarga, dan korporat.</p>
+        </li>
+        <li style="list-style:none;">
+          <h3>&#10003; Photo Booth</h3>
+          <p>Layanan photo booth modern dan interaktif dengan hasil cetak instan untuk berbagai acara.</p>
+        </li>
+        <li style="list-style:none;">
+          <h3>&#10003; Yearbook Sekolah</h3>
+          <p>Produksi buku tahunan sekolah menyeluruh dari konsep, fotografi, tata letak, cetak, hingga flipbook.</p>
+        </li>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES / LAYANAN UTAMA SECTION -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-head text-center">
+        <span class="eyebrow">Layanan Utama</span>
+        <h2>Tiga Layanan, <span class="text-gradient">Satu Standar Kualitas</span></h2>
+        <p class="lead">Setiap bidang memiliki spesialisasi dan portal layanan khusus, dirancang untuk kebutuhan visual Anda.</p>
+      </div>
+
+      <div class="services__grid">
+
+        <!-- Foto Studio -->
+        <article class="service-card">
+          <span class="service-card__index">01</span>
+          <div class="service-card__icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+          </div>
+          <h3 class="service-card__title">Foto Studio</h3>
+          <p class="service-card__desc">
+            Layanan fotografi profesional untuk wisuda, keluarga, individu, corporate,
+            produk, dan berbagai kebutuhan dokumentasi studio dengan hasil premium siap pakai.
+          </p>
+          <div class="service-card__footer">
+            <span class="service-card__tag">studio.zada.id</span>
+            <a href="studio.html" class="btn btn-primary btn-sm">
+              Kunjungi Website
+              <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Photo Booth -->
+        <article class="service-card">
+          <span class="service-card__index">02</span>
+          <div class="service-card__icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="9" r="3"/><path d="M9 17h6"/></svg>
+          </div>
+          <h3 class="service-card__title">Photo Booth</h3>
+          <p class="service-card__desc">
+            Layanan photo booth modern untuk wedding, seminar, gathering, konser,
+            ulang tahun, corporate event, dan berbagai acara lainnya dengan cetak instan.
+          </p>
+          <div class="service-card__footer">
+            <span class="service-card__tag">photobooth.zada.id</span>
+            <a href="photobooth.html" class="btn btn-primary btn-sm">
+              Kunjungi Website
+              <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Yearbook -->
+        <article class="service-card">
+          <span class="service-card__index">03</span>
+          <div class="service-card__icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H12v16H5.5c-.8 0-1.5-.7-1.5-1.5z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H12v16h6.5c.8 0 1.5-.7 1.5-1.5z"/></svg>
+          </div>
+          <h3 class="service-card__title">Yearbook</h3>
+          <p class="service-card__desc">
+            Layanan pembuatan buku tahunan sekolah lengkap mulai dari konsep,
+            fotografi, desain, hingga produksi cetak &amp; arsip flipbook digital interaktif.
+          </p>
+          <div class="service-card__footer">
+            <span class="service-card__tag">yearbook.zada.id</span>
+            <a href="yearbook.html" class="btn btn-primary btn-sm">
+              Kunjungi Website
+              <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE US -->
+  <section class="section" id="why-us">
+    <div class="container">
+      <div class="section-head text-center">
+        <span class="eyebrow">Mengapa Memilih Kami</span>
+        <h2>Standar Kerja yang <span class="text-gradient">Dapat Dipercaya</span></h2>
+      </div>
+
+      <div class="process">
+        <li>
+          <h3>Tim Profesional</h3>
+          <p>Fotografer dan tim kreatif berpengalaman di bidangnya.</p>
+        </li>
+        <li>
+          <h3>Kualitas Premium</h3>
+          <p>Standar hasil akhir yang konsisten di setiap proyek fotografi dan cetak.</p>
+        </li>
+        <li>
+          <h3>Konsep Kreatif</h3>
+          <p>Ide visual unik yang disesuaikan dengan identitas dan kebutuhan klien.</p>
+        </li>
+        <li>
+          <h3>Mitra Terpercaya</h3>
+          <p>Bekerja sama dengan sekolah, individu, dan korporat di berbagai kota.</p>
+        </li>
+        <li>
+          <h3>Produksi Cepat</h3>
+          <p>Alur kerja efisien dan terstruktur tanpa mengorbankan mutu.</p>
+        </li>
+        <li>
+          <h3>Kepuasan Klien</h3>
+          <p>Fokus penuh pada pengalaman positif dan hasil visual memuaskan.</p>
+        </li>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKFLOW -->
+  <section class="section" id="workflow">
+    <div class="container">
+      <div class="section-head text-center">
+        <span class="eyebrow">Proses Kerja</span>
+        <h2>Dari Konsultasi hingga <span class="text-gradient">Serah Terima</span></h2>
+        <p class="lead">Tahapan terstruktur untuk memastikan setiap hasil visual presisi, berkualitas tinggi, dan selesai tepat waktu.</p>
+      </div>
+
+      <div class="workflow-grid">
+        <div class="workflow-card">
+          <div class="workflow-card__number">01</div>
+          <h3>Konsultasi</h3>
+          <p>Diskusi kebutuhan visual, eksplorasi konsep, dan rekomendasi paket layanan terbaik.</p>
+        </div>
+        <div class="workflow-card">
+          <div class="workflow-card__number">02</div>
+          <h3>Perencanaan</h3>
+          <p>Menyusun jadwal pemotretan, konsep tata letak/moodboard, dan kesiapan timeline produksi.</p>
+        </div>
+        <div class="workflow-card">
+          <div class="workflow-card__number">03</div>
+          <h3>Produksi</h3>
+          <p>Sesi pemotretan studio atau on-location dengan tim profesional dan peralatan mutakhir.</p>
+        </div>
+        <div class="workflow-card">
+          <div class="workflow-card__number">04</div>
+          <h3>Editing</h3>
+          <p>Kurasi foto terbaik, color grading presisi, retouching detail, dan tata letak desain.</p>
+        </div>
+        <div class="workflow-card">
+          <div class="workflow-card__number">05</div>
+          <h3>Serah Terima</h3>
+          <p>Pengiriman hasil akhir digital siap pakai, cetak fisik berkualitas, hingga arsip digital.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer" id="contact">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer__brand">
+          <img src="zadastudio.png" alt="ZADA STUDIO Logo" style="width: 28px; height: 28px; object-fit: contain;" />
+          ZADA STUDIO
+        </div>
+        <p style="margin-top:0.8rem;max-width:38ch;font-size:0.88rem;">ZADA Studio Creative Visual Solution. Menyediakan layanan Foto Studio, Photo Booth, dan Yearbook.</p>
+      </div>
+
+      <div>
+        <h4>Alamat Utama</h4>
+        <p style="max-width:38ch;font-size:0.88rem;">Jl. Ceger Raya No.3, RW.4, Jurang Manggu Tim., Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15222</p>
+      </div>
+
+      <div>
+        <h4>Layanan Utama</h4>
+        <ul>
+          <li><a href="studio.html">Foto Studio</a></li>
+          <li><a href="photobooth.html">Photo Booth</a></li>
+          <li><a href="yearbook.html">Yearbook</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Kontak Resmi</h4>
+        <ul>
+          <li><a href="mailto:zadafotostudio@gmail.com">zadafotostudio@gmail.com</a></li>
+          <li><a href="https://wa.me/6281234567890" target="_blank" rel="noopener">+62 812-3456-7890</a></li>
+          <li><a href="https://www.instagram.com/zada.yearbook" target="_blank" rel="noopener">Instagram ZADA</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; 2026 ZADA Studio. Seluruh hak cipta dilindungi.</span>
+      <span>Creative Visual Solution</span>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">&#8593;</button>
+
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script defer src="js/firebase-init.js"></script>
+<script defer src="js/data.js"></script>
+<script defer src="js/ui.js"></script>
+<script defer src="js/zada-common.js"></script>
+</body>
+</html>

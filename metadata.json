@@ -1,0 +1,6 @@
+{
+  "name": "ZADA STUDIO",
+  "description": "Platform Portal Resmi ZADA Studio — Creative Visual Solution",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

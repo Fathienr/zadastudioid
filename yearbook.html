@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Katalog &amp; Portofolio Buku Tahunan Sekolah — ZADA Yearbook | ZADA STUDIO</title>
+<meta name="description" content="Katalog resmi portofolio buku tahunan sekolah buatan ZADA Yearbook. Telusuri edisi flipbook digital interaktif dari berbagai sekolah mitra SD, SMP, SMA, SMK." />
+<link rel="icon" type="image/png" href="zadastudio.png" />
+<link rel="apple-touch-icon" href="zadastudio.png" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<!-- Lottie Player Support -->
+<script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.4/dist/lottie-player.js"></script>
+</head>
+<body>
+
+<!-- Loader -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__wrap">
+    <dotlottie-player src="js/loader.json" background="transparent" speed="1" style="width: 160px; height: 160px; margin: 0 auto;" loop autoplay></dotlottie-player>
+    <p class="loader__word"><b>ZADA</b> YEARBOOK</p>
+  </div>
+</div>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+<!-- Header Navigation -->
+<nav class="site-nav" id="navbar">
+  <div class="container">
+    <a href="index.html" class="brand">
+      <img src="zadastudio.png" alt="ZADA STUDIO Logo" class="navbar__brand-mark" />
+      <span>ZADA STUDIO<small>Yearbook Portfolio</small></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Beranda</a></li>
+      <li><a href="studio.html">Foto Studio</a></li>
+      <li><a href="#katalog">Katalog Buku</a></li>
+      <li><a href="#project-progress">Progres Proyek</a></li>
+      <li><a href="admin-login.html" class="nav-cta">Admin</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Buka menu">&#9776;</button>
+  </div>
+</nav>
+
+<!-- Mobile Navigation Drawer -->
+<div class="navbar__mobile" id="navMobile">
+  <button class="navbar__mobile-close" id="navMobileClose" aria-label="Tutup menu">&times;</button>
+  <a href="index.html">&larr; Beranda ZADA Studio</a>
+  <a href="#katalog">Katalog Buku Tahunan</a>
+  <a href="#project-progress">📊 Progres Proyek Real-Time</a>
+  <a href="#tentang">Alur Kerja</a>
+  <a href="admin-login.html" class="btn btn-primary">Portal Admin</a>
+</div>
+
+<main id="page-content">
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">Yearbook Portfolio &bull; ZADA Studio</span>
+        <h1>
+          <span class="typewriter-line-1">Arsip Digital &amp; Katalog</span><br />
+          <span class="typewriter-line-2 text-gradient gradient-anim">Buku Tahunan Sekolah</span>
+        </h1>
+        <p class="subtitle">Setiap angkatan punya satu cerita untuk disampul. Jelajahi karya buku tahunan sekolah dari berbagai edisi dalam format flipbook digital interaktif.</p>
+        
+        <div class="hero-stats">
+          <div class="stat"><strong id="stat-total">&mdash;</strong><span>Total Edisi</span></div>
+          <div class="stat"><strong id="stat-schools">&mdash;</strong><span>Sekolah Mitra</span></div>
+          <div class="stat"><strong id="stat-years">&mdash;</strong><span>Tahun Produksi</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="shelf-card">
+          <div class="shelf-title">Koleksi Terpopuler</div>
+          <div class="shelf" id="hero-shelf"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Katalog Section -->
+  <section class="section" id="katalog">
+    <div class="container">
+      <div class="section-head text-center">
+        <span class="eyebrow">Portofolio Kami</span>
+        <h2>Telusuri Katalog Sekolah Mitra</h2>
+        <p class="lead">Gunakan pencarian atau filter berdasarkan jenjang, tahun terbit, dan kategori untuk menemukan karya terbaik kami.</p>
+      </div>
+
+      <div class="toolbar" id="filter-form">
+        <div class="search-box">
+          <input type="text" id="q" placeholder="Cari nama sekolah, mis. Al-Azhar, SMAN 1..." />
+        </div>
+        <select id="f-level">
+          <option value="">Semua Jenjang</option>
+          <option value="KB">KB / PAUD / TK</option>
+          <option value="SD">SD / MI</option>
+          <option value="SMP">SMP / MTs</option>
+          <option value="SMA">SMA / MA / SMK</option>
+        </select>
+        <select id="f-year">
+          <option value="">Semua Tahun</option>
+        </select>
+        <select id="f-category">
+          <option value="">Semua Kategori</option>
+          <option value="Reguler">Reguler</option>
+          <option value="Premium">Premium</option>
+        </select>
+        <button type="button" class="btn btn-outline" id="btn-reset">Reset</button>
+      </div>
+
+      <div class="result-bar" id="result-count">Memuat katalog sekolah&hellip;</div>
+
+      <div class="portfolio-grid" id="portfolio-grid"></div>
+
+      <div class="empty-state" id="empty-state" style="display: none;">
+        <h3>Tidak ada sekolah yang cocok</h3>
+        <p>Coba ubah kata kunci pencarian atau sesuaikan pilihan filter Anda.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECT PROGRESS SECTION (YEARBOOK FOCUSED REAL-TIME TRACKER) -->
+  <section class="section" id="project-progress" style="background: var(--color-bg-alt, rgba(255, 255, 255, 0.02));">
+    <div class="container">
+      <div class="section-head text-center">
+        <span class="eyebrow">Real-Time Yearbook Project Tracker</span>
+        <h2>Status Progres Proyek <span class="text-gradient">Buku Tahunan Sekolah</span></h2>
+        <p class="lead">
+          Pantau sejauh mana pengerjaan buku tahunan sekolah Anda secara langsung &mdash; mulai dari <strong>Konsep</strong>, <strong>Photoshoot Pemotretan</strong>, <strong>Editing &amp; Layout Desain</strong>, hingga <strong>Final Review</strong> dan Cetak Fisik.
+        </p>
+      </div>
+
+      <!-- Interactive Tracker Container -->
+      <div id="project-progress-widget"></div>
+    </div>
+  </section>
+
+  <!-- Process Section -->
+  <section class="section" id="tentang">
+    <div class="container">
+      <div class="section-head text-center">
+        <span class="eyebrow">Standar Produksi</span>
+        <h2>Alur Pembuatan Buku Tahunan</h2>
+        <p class="lead">Setiap proyek dikerjakan dengan koordinasi terstruktur agar pengerjaan tepat waktu dan memuaskan.</p>
+      </div>
+
+      <div class="process">
+        <li>
+          <h3>💡 1. Konsep &amp; Konsultasi</h3>
+          <p>Penentuan tema besar, struktur halaman, dan perencanaan anggaran bersama panitia sekolah.</p>
+        </li>
+        <li>
+          <h3>📸 2. Sesi Pemotretan</h3>
+          <p>Pengambilan foto indoor/outdoor oleh tim fotografer profesional ZADA dengan arahan gaya.</p>
+        </li>
+        <li>
+          <h3>🎨 3. Desain &amp; Tata Letak</h3>
+          <p>Penyusunan profil siswa, pesan kesan, dan perwajahan halaman secara eksklusif.</p>
+        </li>
+        <li>
+          <h3>📱 4. Publikasi Flipbook</h3>
+          <p>Buku digital interaktif diunggah ke platform AnyFlip agar dapat diakses kapan saja.</p>
+        </li>
+        <li>
+          <h3>📚 5. Cetak Fisik</h3>
+          <p>Proses cetak hard cover &amp; penjilidan kualitas tinggi menggunakan kertas pilihan.</p>
+        </li>
+        <li>
+          <h3>🎁 6. Serah Terima</h3>
+          <p>Pengiriman fisik buku tahunan ke sekolah beserta arsip dokumentasi digital.</p>
+        </li>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer__brand">
+          <img src="zadastudio.png" alt="ZADA STUDIO Logo" style="width: 28px; height: 28px; object-fit: contain;" />
+          ZADA STUDIO
+        </div>
+        <p style="margin-top:0.8rem;max-width:38ch;font-size:0.88rem;">ZADA Yearbook merupakan platform portofolio digital resmi untuk seluruh proyek buku tahunan sekolah yang diproduksi oleh ZADA.</p>
+      </div>
+      <div>
+        <h4>Alamat Utama</h4>
+        <p style="max-width:38ch;font-size:0.88rem;">Jl. Ceger Raya No.3, RW.4, Jurang Manggu Tim., Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15222</p>
+      </div>
+      <div>
+        <h4>Layanan Utama</h4>
+        <ul>
+          <li><a href="https://studio.zada.id" target="_blank" rel="noopener">Foto Studio</a></li>
+          <li><a href="https://photobooth.zada.id" target="_blank" rel="noopener">Photo Booth</a></li>
+          <li><a href="yearbook.html">Yearbook</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kontak Resmi</h4>
+        <ul>
+          <li><a href="https://www.instagram.com/zada.yearbook" target="_blank" rel="noopener">Instagram @zada.yearbook</a></li>
+          <li><a href="mailto:zadafotostudio@gmail.com">Email ZADA Studio</a></li>
+          <li><a href="https://wa.me/6281234567890" target="_blank" rel="noopener">WhatsApp CS</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 ZADA Studio. Seluruh hak cipta dilindungi.</span>
+      <span>yearbook.zada.id &bull; Creative Visual Solution</span>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">&#8593;</button>
+
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script defer src="js/firebase-init.js"></script>
+<script defer src="js/data.js"></script>
+<script defer src="js/ui.js"></script>
+<script defer src="js/zada-common.js"></script>
+<script defer src="js/main.js"></script>
+<script defer src="js/project-progress.js"></script>
+</body>
+</html>

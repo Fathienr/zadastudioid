@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portofolio Sekolah — ZADA Yearbook | ZADA STUDIO</title>
+<link rel="icon" type="image/png" href="zadastudio.png" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+<!-- Header Navigation -->
+<nav class="site-nav" id="navbar">
+  <div class="container">
+    <a href="index.html" class="brand">
+      <img src="zadastudio.png" alt="ZADA STUDIO Logo" class="navbar__brand-mark" />
+      <span>ZADA STUDIO<small>Yearbook Portfolio</small></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Beranda</a></li>
+      <li><a href="yearbook.html">Yearbook</a></li>
+      <li><a href="admin-login.html" class="nav-cta">Admin</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Buka menu">&#9776;</button>
+  </div>
+</nav>
+
+<!-- Mobile Navigation Drawer -->
+<div class="navbar__mobile" id="navMobile">
+  <button class="navbar__mobile-close" id="navMobileClose" aria-label="Tutup menu">&times;</button>
+  <a href="index.html">Beranda ZADA Studio</a>
+  <a href="yearbook.html">Katalog Buku Yearbook</a>
+  <a href="index.html#services">Layanan Utama</a>
+  <a href="yearbook.html#tentang">Proses Kerja</a>
+  <a href="admin-login.html" class="btn btn-primary">Portal Admin</a>
+</div>
+
+<main id="page-content" style="min-height: calc(100vh - 300px);">
+  <!-- filled by school.js -->
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer__brand">
+          <img src="zadastudio.png" alt="ZADA STUDIO Logo" style="width: 28px; height: 28px; object-fit: contain;" />
+          ZADA STUDIO
+        </div>
+        <p style="margin-top:0.8rem;max-width:38ch;font-size:0.88rem;">ZADA Yearbook merupakan platform portofolio digital resmi untuk seluruh proyek buku tahunan sekolah yang diproduksi oleh ZADA.</p>
+      </div>
+      <div>
+        <h4>Alamat Utama</h4>
+        <p style="max-width:38ch;font-size:0.88rem;">Jl. Ceger Raya No.3, RW.4, Jurang Manggu Tim., Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15222</p>
+      </div>
+      <div>
+        <h4>Layanan Utama</h4>
+        <ul>
+          <li><a href="studio.html">Foto Studio</a></li>
+          <li><a href="photobooth.html">Photo Booth</a></li>
+          <li><a href="yearbook.html">Yearbook</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kontak Resmi</h4>
+        <ul>
+          <li><a href="https://www.instagram.com/zada.yearbook" target="_blank" rel="noopener">Instagram @zada.yearbook</a></li>
+          <li><a href="mailto:zadafotostudio@gmail.com">Email ZADA Studio</a></li>
+          <li><a href="https://wa.me/6281234567890" target="_blank" rel="noopener">WhatsApp CS</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 ZADA Studio. Seluruh hak cipta dilindungi.</span>
+      <span>yearbook.zada.id &bull; Creative Visual Solution</span>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">&#8593;</button>
+
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script defer src="js/firebase-init.js"></script>
+<script defer src="js/data.js"></script>
+<script defer src="js/ui.js"></script>
+<script defer src="js/zada-common.js"></script>
+<script defer src="js/school.js"></script>
+</body>
+</html>

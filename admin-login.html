@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Masuk Admin — ZADA STUDIO</title>
+<link rel="icon" type="image/png" href="zadastudio.png" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<div class="auth-shell">
+  <div class="auth-card">
+    <a href="index.html" class="brand" style="justify-content: center; margin-bottom: 1.2rem;">
+      <img src="zadastudio.png" alt="ZADA STUDIO Logo" class="navbar__brand-mark" />
+      <span>ZADA STUDIO<small>Yearbook Portal Admin</small></span>
+    </a>
+    <h1>Portal Management</h1>
+    <p>Kelola data portofolio &amp; alur progres buku tahunan sekolah.</p>
+
+    <p class="auth-error" id="auth-error">Email atau kata sandi tidak sesuai.</p>
+
+    <form id="login-form" style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="field" style="text-align: left;">
+        <label for="email">Email Administrator</label>
+        <input type="email" id="email" autocomplete="username" placeholder="admin@zada.id" required />
+      </div>
+      <div class="field" style="text-align: left;">
+        <label for="password">Kata Sandi</label>
+        <div class="input-password-wrap">
+          <input type="password" id="password" autocomplete="current-password" placeholder="••••••••" required />
+          <button type="button" id="toggleAdminPwd" class="toggle-pwd-btn" aria-label="Tampilkan kata sandi">&#128065;</button>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" id="btn-submit" style="width: 100%; justify-content: center; margin-top: 0.5rem;">Masuk ke Dashboard &rarr;</button>
+    </form>
+
+    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--glass-border);">
+      <a href="index.html" class="back-link" style="justify-content: center; margin-bottom: 0;">&larr; Kembali ke Website Utama</a>
+    </div>
+
+    <p class="auth-hint" style="margin-top: 1.2rem !important;">
+      Akses khusus administrator ZADA Studio.<br>
+      Gunakan akun resmi terverifikasi untuk mengelola sistem.
+    </p>
+  </div>
+</div>
+
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script defer src="js/firebase-init.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  auth.onAuthStateChanged((user) => {
+    if (user) window.location.href = "admin-dashboard.html";
+  });
+
+  const form = document.getElementById("login-form");
+  const errorEl = document.getElementById("auth-error");
+  const btn = document.getElementById("btn-submit");
+  const pwdInput = document.getElementById("password");
+  const toggleBtn = document.getElementById("toggleAdminPwd");
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
+      const isPwd = pwdInput.type === "password";
+      pwdInput.type = isPwd ? "text" : "password";
+      toggleBtn.textContent = isPwd ? "🙈" : "👁️";
+    });
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    errorEl.style.display = "none";
+    btn.disabled = true;
+    btn.textContent = "Memeriksa...";
+
+    const email = document.getElementById("email").value.trim();
+    const password = pwdInput.value;
+
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      window.location.href = "admin-dashboard.html";
+    } catch (err) {
+      errorEl.textContent = "Email atau kata sandi tidak sesuai.";
+      errorEl.style.display = "block";
+      btn.disabled = false;
+      btn.innerHTML = "Masuk ke Dashboard &rarr;";
+    }
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZADA Photobooth — Instan Unlimited Photobooth Wedding &amp; Event</title>
+  <meta name="description" content="Layanan Photobooth Instan Unlimited untuk Wedding, Event, Gathering, dan Ulang Tahun dari ZADA Studio. Cetak 4R & Photostrip, High Angle, Premium & Mingle Photobooth." />
+  
+  <link rel="icon" type="image/png" href="zadastudio.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Lottie Player Support -->
+  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.4/dist/lottie-player.js"></script>
+  <style>
+    /* Photobooth Custom Styles */
+    .pb-hero {
+      padding: var(--space-xl) 0 var(--space-lg);
+      position: relative;
+    }
+
+    .duration-toggle {
+      display: inline-flex;
+      background: var(--color-surface, #ffffff);
+      border: 1px solid var(--glass-border, rgba(203, 213, 225, 0.8));
+      padding: 0.35rem;
+      border-radius: var(--radius-pill);
+      margin: 1.5rem 0 2.5rem;
+      gap: 0.35rem;
+      box-shadow: 0 4px 15px rgba(15, 23, 42, 0.05);
+    }
+
+    .duration-btn {
+      background: transparent;
+      border: none;
+      color: var(--color-text-dim, #475569);
+      padding: 0.6rem 1.5rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--dur-fast) ease;
+    }
+
+    .duration-btn.active {
+      background: var(--gradient-brand);
+      color: #ffffff;
+      box-shadow: 0 4px 18px rgba(37, 99, 235, 0.4);
+    }
+
+    [data-theme="dark"] .duration-toggle {
+      background: rgba(15, 23, 42, 0.8);
+      border-color: var(--glass-border);
+      box-shadow: none;
+    }
+
+    [data-theme="dark"] .duration-btn {
+      color: var(--color-text-dim);
+    }
+
+    .pb-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.75rem;
+    }    .pb-card {
+      background: var(--color-surface, #ffffff);
+      border: 1px solid var(--glass-border, rgba(203, 213, 225, 0.8));
+      border-radius: var(--radius-lg);
+      padding: 1.85rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+    }
+
+    .pb-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--accent-500, #2563eb);
+      box-shadow: 0 20px 40px rgba(37, 99, 235, 0.12), 0 0 25px rgba(59, 130, 246, 0.1);
+    }
+
+    .pb-card--premium {
+      border: 1px solid rgba(37, 99, 235, 0.35);
+      background: linear-gradient(165deg, rgba(37, 99, 235, 0.06) 0%, rgba(255, 255, 255, 0.98) 100%);
+      box-shadow: 0 12px 35px rgba(37, 99, 235, 0.1);
+    }
+
+    .pb-badge {
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      background: var(--gradient-brand);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.85rem;
+      border-radius: var(--radius-pill);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+    }
+
+    .pb-type {
+      font-size: var(--fs-eyebrow);
+      color: var(--accent-500, #2563eb);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.35rem;
+    }
+
+    .pb-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 0.5rem;
+    }
+
+    .pb-price-wrap {
+      margin: 1rem 0;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
+
+    .pb-price {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent-500, #2563eb);
+      font-family: var(--font-display);
+    }
+
+    .pb-price-sub {
+      font-size: 0.85rem;
+      color: var(--color-muted);
+    }
+
+    .pb-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.5rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      flex-grow: 1;
+    }
+
+    .pb-features li {
+      font-size: 0.92rem;
+      color: var(--color-text-dim);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      line-height: 1.45;
+    }
+
+    .pb-features li svg {
+      width: 18px;
+      height: 18px;
+      color: var(--accent-500, #2563eb);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .feature-highlight-box {
+      background: var(--color-surface, #ffffff);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      transition: all var(--dur-fast) ease;
+      box-shadow: 0 8px 25px rgba(15, 23, 42, 0.04);
+    }
+
+    .feature-highlight-box:hover {
+      border-color: rgba(37, 99, 235, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(37, 99, 235, 0.08);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      border-radius: 12px;
+    }
+
+    /* Dark mode styling preservation */
+    [data-theme="dark"] .pb-card {
+      background: rgba(19, 27, 46, 0.75);
+      border-color: var(--glass-border);
+      box-shadow: none;
+    }
+    [data-theme="dark"] .pb-card:hover {
+      border-color: rgba(96, 165, 250, 0.5);
+      box-shadow: 0 22px 45px rgba(2, 8, 23, 0.65), 0 0 30px rgba(59, 130, 246, 0.25);
+    }
+    [data-theme="dark"] .pb-card--premium {
+      border: 1px solid rgba(96, 165, 250, 0.6);
+      background: linear-gradient(165deg, rgba(29, 78, 216, 0.2) 0%, rgba(19, 27, 46, 0.9) 100%);
+      box-shadow: none;
+    }
+    [data-theme="dark"] .pb-type {
+      color: var(--accent-400);
+    }
+    [data-theme="dark"] .pb-price {
+      color: #38bdf8;
+    }
+    [data-theme="dark"] .pb-features li svg {
+      color: #60a5fa;
+    }
+    [data-theme="dark"] .feature-highlight-box {
+      background: rgba(15, 23, 42, 0.6);
+      box-shadow: none;
+    }
+    [data-theme="dark"] .feature-icon {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: rgba(96, 165, 250, 0.3);
+    }
+    .feature-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-500, #2563eb);
+      flex-shrink: 0;
+    }
+    [data-theme="dark"] .feature-icon {
+      color: #60a5fa;
+    }
+
+    /* Modal Styles */
+    .booking-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--dur-fast) ease;
+    }
+
+    .booking-modal.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .booking-modal__content {
+      background: var(--color-surface);
+      border: 1px solid var(--glass-border-hover);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 580px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+      box-shadow: var(--shadow-lift);
+    }
+
+    .booking-modal__close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1.25rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-text-dim);
+      margin-bottom: 0.4rem;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--color-surface, #ffffff);
+      border: 1px solid var(--glass-border, rgba(203, 213, 225, 0.8));
+      border-radius: var(--radius-sm);
+      color: var(--color-text, #0f172a);
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    [data-theme="dark"] .form-control {
+      background: rgba(10, 14, 26, 0.7);
+      border-color: var(--glass-border);
+      color: #fff;
+    }
+
+    .form-control option {
+      background: var(--color-surface, #ffffff);
+      color: var(--color-text, #0f172a);
+    }
+
+    [data-theme="dark"] .form-control option {
+      background: #0f172a;
+      color: #fff;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent-500, #2563eb);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+
+    .faq-item {
+      background: var(--color-surface, #ffffff);
+      border: 1px solid var(--glass-border, rgba(203, 213, 225, 0.8));
+      border-radius: var(--radius-md);
+      margin-bottom: 1rem;
+      overflow: hidden;
+      transition: all var(--dur-fast) ease;
+      box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+    }
+
+    .faq-item:hover {
+      border-color: var(--accent-500, #2563eb);
+    }
+
+    [data-theme="dark"] .faq-item {
+      background: rgba(19, 27, 46, 0.6);
+      border-color: var(--glass-border);
+      box-shadow: none;
+    }
+
+    [data-theme="dark"] .faq-item:hover {
+      border-color: rgba(96, 165, 250, 0.3);
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 1.25rem 1.5rem;
+      background: none;
+      border: none;
+      color: var(--color-text);
+      font-weight: 600;
+      font-size: 1.05rem;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .faq-answer {
+      padding: 0 1.5rem 1.25rem;
+      color: var(--color-text-dim);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      display: none;
+    }
+
+    .faq-item.is-open .faq-answer {
+      display: block;
+    }
+
+    .faq-item.is-open .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-icon {
+      transition: transform var(--dur-fast) ease;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loader -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__wrap">
+      <dotlottie-player src="js/loader.json" background="transparent" speed="1" style="width: 160px; height: 160px; margin: 0 auto;" loop autoplay></dotlottie-player>
+      <p class="loader__word"><b>ZADA</b> PHOTOBOOTH</p>
+    </div>
+  </div>
+
+  <!-- Scroll progress bar -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Custom cursor (desktop) -->
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+  <!-- Floating WhatsApp CTA -->
+  <a href="https://wa.me/6282217771191?text=Halo%20ZADA%20Photobooth%2C%20saya%20ingin%20tanya%20paket%20photobooth" target="_blank" class="float-wa" aria-label="Chat WhatsApp ZADA Photobooth" style="position: fixed; bottom: 25px; right: 25px; z-index: 99; background: #25D366; color: white; padding: 12px 20px; border-radius: 50px; font-weight: 700; display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4); text-decoration: none; transition: transform 0.3s ease;">
+    <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M12.012 2c-5.506 0-9.989 4.478-9.989 9.984 0 1.758.459 3.474 1.33 4.982l-1.413 5.163 5.285-1.385c1.455.796 3.1 1.215 4.787 1.216h.004c5.505 0 9.988-4.478 9.988-9.984 0-2.665-1.038-5.17-2.925-7.058-1.887-1.887-4.39-2.926-7.057-2.926zm5.82 14.331c-.243.684-1.412 1.303-1.954 1.386-.499.076-1.15.111-3.32-.787-2.775-1.148-4.544-3.985-4.683-4.17-.139-.186-1.127-1.498-1.127-2.858 0-1.36.709-2.028.961-2.285.252-.257.551-.322.735-.322.184 0 .368.002.529.01.171.008.4.008.572.421.184.444.621 1.52.675 1.63.054.111.09.242.018.388-.072.146-.108.236-.216.363-.108.127-.227.284-.325.381-.108.108-.221.226-.095.443.126.217.559.923 1.202 1.496.828.738 1.528.967 1.745 1.076.217.108.343.09.469-.054.126-.144.541-.63.685-.847.144-.217.288-.18.487-.108.198.072 1.262.595 1.478.703.216.108.36.162.414.252.054.09.054.523-.189 1.207z"/></svg>
+    <span>WhatsApp Booking</span>
+  </a>
+
+  <!-- Header / Navbar -->
+  <header class="navbar" id="navbar">
+    <div class="container navbar__inner">
+      <a href="index.html" class="navbar__brand">
+        <img src="zadastudio.png" alt="ZADA STUDIO Logo" class="navbar__brand-mark" />
+        <span class="navbar__brand-name">ZADA STUDIO<span>Creative Visual Solution</span></span>
+      </a>
+
+      <nav class="navbar__links" aria-label="Navigasi Photobooth">
+        <a href="index.html" class="navbar__link">Beranda</a>
+        <a href="studio.html" class="navbar__link">Foto Studio</a>
+        <a href="#paket" class="navbar__link is-active">Paket Photobooth</a>
+        <a href="admin-login.html" class="nav-cta">Admin</a>
+      </nav>
+
+      <button class="navbar__toggle" id="navToggle" aria-label="Buka menu navigasi">&#9776;</button>
+    </div>
+
+    <div class="navbar__mobile" id="navMobile">
+      <button class="navbar__mobile-close" id="navMobileClose" aria-label="Tutup menu">&times;</button>
+      <a href="index.html">Beranda Utama</a>
+      <a href="studio.html">Foto Studio</a>
+      <a href="#paket">Paket Photobooth</a>
+      <a href="#fasilitas">Fasilitas</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="pb-hero">
+      <div class="hero__bg">
+        <span class="blob blob--1"></span>
+        <span class="blob blob--2"></span>
+        <div class="mesh-grid"></div>
+      </div>
+
+      <div class="container" style="text-align: center; position: relative; z-index: 2;">
+        <div class="pill" style="margin: 0 auto 1.2rem auto;">
+          <span class="dot"></span> ZADA PHOTOBOOTH • Fast Service For Special Moment
+        </div>
+
+        <h1 style="font-size: var(--fs-hero); line-height: 1.15; margin-bottom: 1rem;">
+          <span class="typewriter-line-1">Layanan Photobooth Instan</span><br />
+          <span class="typewriter-line-2 text-gradient gradient-anim">Unlimited Print 4R &amp; Strip</span>
+        </h1>
+
+        <p class="lead" style="max-width: 740px; margin: 0 auto 2rem; color: var(--color-text-dim);">
+          Solusi hiburan visual terbaik untuk Wedding, Corporate Event, Birthday, Concert, &amp; Gathering. Foto langsung dicetak tanpa batas dengan pencahayaan studio &amp; hasil foto super soft.
+        </p>
+
+        <!-- Quick Info Badges -->
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.25rem; margin-bottom: 2.5rem; font-size: 0.9rem; color: #93c5fd;">
+          <span style="display: flex; align-items: center; gap: 0.4rem; background: rgba(59,130,246,0.12); padding: 0.4rem 0.9rem; border-radius: var(--radius-pill); border: 1px solid rgba(96,165,250,0.3);">
+            ✨ Unlimited Print 4R / Photostrip 2R
+          </span>
+          <span style="display: flex; align-items: center; gap: 0.4rem; background: rgba(59,130,246,0.12); padding: 0.4rem 0.9rem; border-radius: var(--radius-pill); border: 1px solid rgba(96,165,250,0.3);">
+            📱 Free GIF &amp; Boomerang + QR Code
+          </span>
+          <span style="display: flex; align-items: center; gap: 0.4rem; background: rgba(59,130,246,0.12); padding: 0.4rem 0.9rem; border-radius: var(--radius-pill); border: 1px solid rgba(96,165,250,0.3);">
+            🖼️ Free Paper Frame &amp; Custom Template
+          </span>
+        </div>
+
+        <a href="#paket" class="btn btn-primary btn-lg" style="box-shadow: var(--shadow-glow);">
+          Lihat Pilihan Paket Photobooth
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- PRICELIST SECTION -->
+    <section class="section" id="paket">
+      <div class="container">
+        <div class="section-head text-center">
+          <span class="eyebrow">Daftar Paket &amp; Pricelist</span>
+          <h2>Pilihan Paket <span class="text-gradient">ZADA Photobooth</span></h2>
+          <p class="lead">Pilih durasi layanan sesuai dengan estimasi jumlah tamu &amp; kebutuhan acara Anda.</p>
+
+          <!-- Duration Toggle -->
+          <div class="duration-toggle">
+            <button class="duration-btn active" id="btnDur2Hour" data-dur="2">Durasi 2 Jam</button>
+            <button class="duration-btn" id="btnDur3Hour" data-dur="3">Durasi 3 Jam</button>
+          </div>
+        </div>
+
+        <div class="pb-grid">
+
+          <!-- 1. PHOTOBOOTH CLASSIC -->
+          <div class="pb-card">
+            <div>
+              <div class="pb-type">Standard Setup</div>
+              <h3 class="pb-title">Photobooth Classic</h3>
+              <p style="font-size: 0.88rem; color: var(--color-muted); margin-bottom: 0.75rem;">Setup photobooth klasik yang cepat, praktis, dan disukai semua tamu.</p>
+
+              <div class="pb-price-wrap">
+                <span class="pb-price" id="priceClassic">Rp 1.800.000</span>
+                <span class="pb-price-sub" id="subClassic">/ 2 Jam Sesi</span>
+              </div>
+
+              <ul class="pb-features">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>UNLIMITED CETAK</strong> 4R / Photostrip 2R</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> High Quality Photo Print Engine</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Free GIF / Boomerang</strong> Video</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Free Paper Frame</strong> eksklusif</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Free Custom Template Design</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Free QR Code Access Download Softfile</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Free Backdrop Option &amp; Free Transport</li>
+              </ul>
+            </div>
+            <button class="btn btn-ghost w-full open-booking-btn" data-pkg="Photobooth Classic">Pilih Photobooth Classic</button>
+          </div>
+
+          <!-- 2. PHOTOBOOTH HIGH ANGLE -->
+          <div class="pb-card">
+            <div>
+              <div class="pb-type">Trending Perspective</div>
+              <h3 class="pb-title">Photobooth High Angle</h3>
+              <p style="font-size: 0.88rem; color: var(--color-muted); margin-bottom: 0.75rem;">Konsep sudut pandang tinggi dari atas yang kekinian &amp; estetik.</p>
+
+              <div class="pb-price-wrap">
+                <span class="pb-price" id="priceHighAngle">Rp 2.000.000</span>
+                <span class="pb-price-sub" id="subHighAngle">/ 2 Jam Sesi</span>
+              </div>
+
+              <ul class="pb-features">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Kamera High Angle Top-Down View</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>UNLIMITED CETAK</strong> 4R / Photostrip 2R</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> High Quality Photo Print Engine</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Free GIF / Boomerang</strong> Video</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Free Paper Frame</strong> &amp; Custom Design</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Free QR Code Access Download Softfile</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Free Backdrop Option &amp; Free Transport</li>
+              </ul>
+            </div>
+            <button class="btn btn-ghost w-full open-booking-btn" data-pkg="Photobooth High Angle">Pilih High Angle</button>
+          </div>
+
+          <!-- 3. PHOTOBOOTH PREMIUM -->
+          <div class="pb-card pb-card--premium">
+            <span class="pb-badge">🔥 Most Popular</span>
+            <div>
+              <div class="pb-type">Professional Lighting</div>
+              <h3 class="pb-title">Photobooth Premium</h3>
+              <p style="font-size: 0.88rem; color: var(--color-muted); margin-bottom: 0.75rem;">Lampu studio lebih proper dengan tone warna kulit halus &amp; hasil soft.</p>
+
+              <div class="pb-price-wrap">
+                <span class="pb-price" id="pricePremium">Rp 2.100.000</span>
+                <span class="pb-price-sub" id="subPremium">/ 2 Jam Sesi</span>
+              </div>
+
+              <ul class="pb-features">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Lighting Studio High-End Proper &amp; Soft Result</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>UNLIMITED CETAK</strong> 4R / Photostrip 2R</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Hasil cetak lebih cerah &amp; warna akurat</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Free GIF / Boomerang</strong> Animation</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Free Paper Frame</strong> &amp; Custom Template</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Free QR Code Access Download Softfile</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Free Backdrop Option &amp; Free Transport</li>
+              </ul>
+            </div>
+            <button class="btn btn-primary w-full open-booking-btn" data-pkg="Photobooth Premium">Pilih Photobooth Premium</button>
+          </div>
+
+          <!-- 4. MINGLE PHOTOBOOTH -->
+          <div class="pb-card">
+            <span class="pb-badge" style="background: linear-gradient(135deg, #10b981, #059669);">🚶 Mobile Interactive</span>
+            <div>
+              <div class="pb-type">Roaming Photobooth</div>
+              <h3 class="pb-title">Mingle Photobooth</h3>
+              <p style="font-size: 0.88rem; color: var(--color-muted); margin-bottom: 0.75rem;">Fotografer keliling menghampiri tamu secara interaktif di meja / area acara.</p>
+
+              <div class="pb-price-wrap">
+                <span class="pb-price" id="priceMingle">Rp 2.500.000</span>
+                <span class="pb-price-sub" id="subMingle">/ 2 Jam Sesi</span>
+              </div>
+
+              <ul class="pb-features">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Fotografer Keliling Menghampiri Tamu</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>UNLIMITED CETAK</strong> 4R / Photostrip 2R</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Sangat interaktif &amp; tamu tidak perlu mengantre</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Free GIF / Boomerang</strong> Video</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Free Paper Frame</strong> &amp; Custom Template Design</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Free QR Code Access Download Softfile</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Free Transport Included</li>
+              </ul>
+            </div>
+            <button class="btn btn-ghost w-full open-booking-btn" data-pkg="Mingle Photobooth">Pilih Mingle Photobooth</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- FASILITAS SECTION -->
+    <section class="section" id="fasilitas" style="background: var(--color-secondary); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border);">
+      <div class="container">
+        <div class="section-head text-center">
+          <span class="eyebrow">All-In Features</span>
+          <h2>Semua Yang Anda Dapatkan <span class="text-gradient">Dalam Setiap Paket</span></h2>
+          <p class="lead">Seluruh paket ZADA Photobooth sudah termasuk fasilitas lengkap tanpa biaya tersembunyi.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+          
+          <div class="feature-highlight-box">
+            <div class="feature-icon">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div>
+              <h4 style="font-size: 1.1rem; color: #fff; margin-bottom: 0.25rem;">Unlimited Cetak 4R / Strip</h4>
+              <p style="font-size: 0.88rem; color: var(--color-text-dim);">Tamu bebas berfoto &amp; mencetak foto tanpa batasan kuota selama sesi.</p>
+            </div>
+          </div>
+
+          <div class="feature-highlight-box">
+            <div class="feature-icon">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <div>
+              <h4 style="font-size: 1.1rem; color: #fff; margin-bottom: 0.25rem;">Custom Frame Design</h4>
+              <p style="font-size: 0.88rem; color: var(--color-text-dim);">Desain bingkai foto disesuaikan nama pengantin, logo perusahaan, atau tema acara.</p>
+            </div>
+          </div>
+
+          <div class="feature-highlight-box">
+            <div class="feature-icon">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            </div>
+            <div>
+              <h4 style="font-size: 1.1rem; color: #fff; margin-bottom: 0.25rem;">Free QR Code Download</h4>
+              <p style="font-size: 0.88rem; color: var(--color-text-dim);">Tamu dapat langsung memindai QR Code untuk mengunduh foto ke ponsel.</p>
+            </div>
+          </div>
+
+          <div class="feature-highlight-box">
+            <div class="feature-icon">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+            </div>
+            <div>
+              <h4 style="font-size: 1.1rem; color: #fff; margin-bottom: 0.25rem;">GIF &amp; Boomerang Video</h4>
+              <p style="font-size: 0.88rem; color: var(--color-text-dim);">Animasi gerak seru siap diunggah langsung ke Instagram Story / TikTok.</p>
+            </div>
+          </div>
+
+          <div class="feature-highlight-box">
+            <div class="feature-icon">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            </div>
+            <div>
+              <h4 style="font-size: 1.1rem; color: #fff; margin-bottom: 0.25rem;">Free Paper Frame</h4>
+              <p style="font-size: 0.88rem; color: var(--color-text-dim);">Bingkai kertas eksklusif pembungkus hasil cetakan foto untuk tiap tamu.</p>
+            </div>
+          </div>
+
+          <div class="feature-highlight-box">
+            <div class="feature-icon">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            </div>
+            <div>
+              <h4 style="font-size: 1.1rem; color: #fff; margin-bottom: 0.25rem;">Free Setup &amp; Operator</h4>
+              <p style="font-size: 0.88rem; color: var(--color-text-dim);">Tim teknisi &amp; crew ramah stand by melayani tamu sepanjang acara.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="section" id="faq">
+      <div class="container" style="max-width: 860px;">
+        <div class="section-head text-center">
+          <span class="eyebrow">Pertanyaan Umum</span>
+          <h2>Informasi &amp; <span class="text-gradient">FAQ Photobooth</span></h2>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Apa perbedaan Photobooth Premium dan Photobooth Classic?</span>
+              <svg class="faq-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="faq-answer">
+              Photobooth Premium menggunakan lighting studio kelas profesional yang disetel secara presisi agar menghasilkan pencahayaan yang sangat lembut (soft result), tone warna kulit yang lebih natural, dan detail cetak foto yang jauh lebih tajam.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Apakah hasil cetakan foto bisa dicustom sesuai tema wedding / acara?</span>
+              <svg class="faq-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="faq-answer">
+              Ya! Kami menyediakan layanan Free Custom Template Design. Anda dapat mengirimkan logo acara, nama mempelai, tanggal, atau palet warna sesuai keinginan Anda sebelum hari H.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Berapa lama waktu yang dibutuhkan tim ZADA untuk melakukan setup di lokasi?</span>
+              <svg class="faq-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="faq-answer">
+              Tim kru kami akan tiba di lokasi acara 60–90 menit sebelum jam sesi dimulai untuk melakukan instalasi pencahayaan, mesin cetak, backdrop, dan uji coba sistem secara menyeluruh.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Bagaimana cara tamu mengunduh softfile foto &amp; GIF Boomerang?</span>
+              <svg class="faq-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="faq-answer">
+              Di area photobooth akan ditampilkan layar QR Code. Tamu hanya perlu memindai QR Code tersebut menggunakan kamera HP untuk langsung mengunduh softfile foto dan video Boomerang.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- BOOKING MODAL -->
+  <div class="booking-modal" id="bookingModal">
+    <div class="booking-modal__content">
+      <button class="booking-modal__close" id="closeBookingModal">&times;</button>
+      <h3 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 0.25rem;">Form Reservasi ZADA Photobooth</h3>
+      <p style="font-size: 0.88rem; color: var(--color-muted); margin-bottom: 1.25rem;">Isi tanggal acara &amp; lokasi untuk reservasi via WhatsApp resmi ZADA Studio.</p>
+
+      <form id="bookingForm">
+        <div class="form-group">
+          <label>Paket Photobooth</label>
+          <input type="text" id="inputPackage" class="form-control" readonly style="background: var(--glass-bg-strong); color: var(--color-text);" />
+        </div>
+
+        <div class="form-group">
+          <label for="inputDuration">Pilihan Durasi Sesi</label>
+          <select id="inputDuration" class="form-control" required>
+            <option value="2 Jam">2 Jam Sesi</option>
+            <option value="3 Jam">3 Jam Sesi</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="inputName">Nama Pemesan / Penyelenggara</label>
+          <input type="text" id="inputName" class="form-control" placeholder="Contoh: Sarah &amp; Dian Wedding" required />
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label for="inputDate">Tanggal Acara</label>
+            <input type="date" id="inputDate" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="inputTime">Jam Mulai Acara (Format 1-24 Jam)</label>
+            <select id="inputTime" class="form-control" required>
+              <option value="" disabled selected>-- Pilih Jam Acara (01:00 - 24:00) --</option>
+              <option value="01:00 WIB">01:00 WIB</option>
+              <option value="02:00 WIB">02:00 WIB</option>
+              <option value="03:00 WIB">03:00 WIB</option>
+              <option value="04:00 WIB">04:00 WIB</option>
+              <option value="05:00 WIB">05:00 WIB</option>
+              <option value="06:00 WIB">06:00 WIB</option>
+              <option value="07:00 WIB">07:00 WIB</option>
+              <option value="08:00 WIB">08:00 WIB</option>
+              <option value="09:00 WIB">09:00 WIB</option>
+              <option value="10:00 WIB">10:00 WIB</option>
+              <option value="11:00 WIB">11:00 WIB</option>
+              <option value="12:00 WIB">12:00 WIB</option>
+              <option value="13:00 WIB">13:00 WIB</option>
+              <option value="14:00 WIB">14:00 WIB</option>
+              <option value="15:00 WIB">15:00 WIB</option>
+              <option value="16:00 WIB">16:00 WIB</option>
+              <option value="17:00 WIB">17:00 WIB</option>
+              <option value="18:00 WIB">18:00 WIB</option>
+              <option value="19:00 WIB">19:00 WIB</option>
+              <option value="20:00 WIB">20:00 WIB</option>
+              <option value="21:00 WIB">21:00 WIB</option>
+              <option value="22:00 WIB">22:00 WIB</option>
+              <option value="23:00 WIB">23:00 WIB</option>
+              <option value="24:00 WIB">24:00 WIB (00:00)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputLocation">Lokasi / Nama Venue Acara</label>
+          <input type="text" id="inputLocation" class="form-control" placeholder="Contoh: Gedung Mulberry BSD / Hotel Santika" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary w-full btn-lg" style="margin-top: 0.5rem; justify-content: center;">
+          Cek Slot &amp; Reservasi via WhatsApp
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" id="contact">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer__brand">
+            <img src="zadastudio.png" alt="ZADA STUDIO Logo" style="width: 28px; height: 28px; object-fit: contain;" />
+            ZADA STUDIO
+          </div>
+          <p style="margin-top:0.8rem;max-width:38ch;font-size:0.88rem;">ZADA Studio — Creative Visual Solution. Menyediakan layanan Foto Studio, Photo Booth, dan Yearbook.</p>
+        </div>
+
+        <div>
+          <h4>Alamat Utama</h4>
+          <p style="max-width:38ch;font-size:0.88rem;">Jl. Ceger Raya No.3, RW.4, Jurang Manggu Tim., Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15222</p>
+        </div>
+
+        <div>
+          <h4>Layanan Utama</h4>
+          <ul>
+            <li><a href="studio.html">Foto Studio</a></li>
+            <li><a href="photobooth.html">Photo Booth</a></li>
+            <li><a href="yearbook.html">Yearbook</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Kontak Resmi</h4>
+          <ul>
+            <li><a href="mailto:zadafotostudio@gmail.com">zadafotostudio@gmail.com</a></li>
+            <li><a href="https://wa.me/6282217771191" target="_blank" rel="noopener">+62 822-1777-1191</a></li>
+            <li><a href="https://www.instagram.com/zada.photobooth" target="_blank" rel="noopener">Instagram ZADA Photobooth</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 ZADA Studio. Seluruh hak cipta dilindungi.</span>
+        <span>Creative Visual Solution</span>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">&#8593;</button>
+
+  <!-- SCRIPT -->
+  <script>
+    // Duration Price Switcher Logic
+    const btnDur2Hour = document.getElementById('btnDur2Hour');
+    const btnDur3Hour = document.getElementById('btnDur3Hour');
+    const inputDuration = document.getElementById('inputDuration');
+
+    const priceClassic = document.getElementById('priceClassic');
+    const subClassic = document.getElementById('subClassic');
+    
+    const priceHighAngle = document.getElementById('priceHighAngle');
+    const subHighAngle = document.getElementById('subHighAngle');
+
+    const pricePremium = document.getElementById('pricePremium');
+    const subPremium = document.getElementById('subPremium');
+
+    const priceMingle = document.getElementById('priceMingle');
+    const subMingle = document.getElementById('subMingle');
+
+    function updatePrices(duration) {
+      if (duration === 2) {
+        btnDur2Hour.classList.add('active');
+        btnDur3Hour.classList.remove('active');
+
+        priceClassic.textContent = 'Rp 1.800.000';
+        subClassic.textContent = '/ 2 Jam Sesi';
+
+        priceHighAngle.textContent = 'Rp 2.000.000';
+        subHighAngle.textContent = '/ 2 Jam Sesi';
+
+        pricePremium.textContent = 'Rp 2.100.000';
+        subPremium.textContent = '/ 2 Jam Sesi';
+
+        priceMingle.textContent = 'Rp 2.500.000';
+        subMingle.textContent = '/ 2 Jam Sesi';
+
+        if (inputDuration) inputDuration.value = '2 Jam';
+      } else {
+        btnDur3Hour.classList.add('active');
+        btnDur2Hour.classList.remove('active');
+
+        priceClassic.textContent = 'Rp 2.000.000';
+        subClassic.textContent = '/ 3 Jam Sesi';
+
+        priceHighAngle.textContent = 'Rp 2.200.000';
+        subHighAngle.textContent = '/ 3 Jam Sesi';
+
+        pricePremium.textContent = 'Rp 2.300.000';
+        subPremium.textContent = '/ 3 Jam Sesi';
+
+        priceMingle.textContent = 'Rp 3.000.000';
+        subMingle.textContent = '/ 3 Jam Sesi';
+
+        if (inputDuration) inputDuration.value = '3 Jam';
+      }
+    }
+
+    btnDur2Hour.addEventListener('click', () => updatePrices(2));
+    btnDur3Hour.addEventListener('click', () => updatePrices(3));
+
+    // Booking Modal Functionality
+    const modal = document.getElementById('bookingModal');
+    const closeBtn = document.getElementById('closeBookingModal');
+    const inputPackage = document.getElementById('inputPackage');
+    const openBtns = document.querySelectorAll('.open-booking-btn');
+
+    openBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const pkgName = btn.getAttribute('data-pkg') || 'ZADA Photobooth';
+        inputPackage.value = pkgName;
+        modal.classList.add('is-open');
+      });
+    });
+
+    closeBtn.addEventListener('click', () => {
+      modal.classList.remove('is-open');
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('is-open');
+      }
+    });
+
+    // Submit to WhatsApp
+    document.getElementById('bookingForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const pkg = inputPackage.value;
+      const dur = inputDuration.value;
+      const name = document.getElementById('inputName').value;
+      const date = document.getElementById('inputDate').value;
+      const time = document.getElementById('inputTime').value;
+      const location = document.getElementById('inputLocation').value;
+
+      const text = `Halo ZADA Photobooth, saya ingin melakukan reservasi photobooth:%0A%0A` +
+        `• *Paket*: ${pkg}%0A` +
+        `• *Durasi*: ${dur}%0A` +
+        `• *Pemesan*: ${name}%0A` +
+        `• *Tanggal Acara*: ${date}%0A` +
+        `• *Jam Acara*: ${time}%0A` +
+        `• *Lokasi Venue*: ${location}%0A%0A` +
+        `Mohon informasi ketersediaan jadwal, contoh template, dan tata cara booking. Terima kasih!`;
+
+      window.open(`https://wa.me/6282217771191?text=${text}`, '_blank');
+      modal.classList.remove('is-open');
+    });
+
+    // FAQ Accordion
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    faqQuestions.forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.parentElement;
+        item.classList.toggle('is-open');
+      });
+    });
+
+    // Mobile Navbar Toggle
+    const navToggle = document.getElementById('navToggle');
+    const navMobile = document.getElementById('navMobile');
+    const navMobileClose = document.getElementById('navMobileClose');
+
+    if (navToggle && navMobile) {
+      navToggle.addEventListener('click', () => navMobile.classList.add('is-open'));
+      navMobileClose.addEventListener('click', () => navMobile.classList.remove('is-open'));
+    }
+  </script>
+  <script defer src="js/zada-common.js"></script>
+</body>
+</html>

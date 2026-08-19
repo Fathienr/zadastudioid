@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZADA Studio — Katalog Paket & Pricelist Foto Studio Studio Professional</title>
+  <meta name="description" content="Pricelist & Paket Foto Studio ZADA Studio: Foto Keluarga, Wisuda, Prewedding, Pas Foto, Profile Look, Foto Produk, Foto Profesi Anak, dan Sewa Studio." />
+  
+  <link rel="icon" type="image/png" href="zadastudio.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* Specific Studio Enhancements */
+    .studio-hero {
+      padding: var(--space-xl) 0 var(--space-lg);
+      position: relative;
+    }
+    
+    .category-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      justify-content: center;
+      margin: 2rem 0 3rem;
+    }
+
+    .pill-btn {
+      background: var(--color-surface, #ffffff);
+      border: 1px solid var(--glass-border, rgba(203, 213, 225, 0.8));
+      color: var(--color-text-dim, #334155);
+      padding: 0.55rem 1.25rem;
+      border-radius: var(--radius-pill);
+      font-size: var(--fs-small);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--dur-fast) var(--ease-out);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+
+    .pill-btn:hover {
+      background: rgba(37, 99, 235, 0.08);
+      border-color: var(--accent-500, #2563eb);
+      color: var(--accent-600, #1d4ed8);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12);
+    }
+
+    .pill-btn.active {
+      background: var(--gradient-brand);
+      border-color: transparent;
+      color: #ffffff;
+      box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
+      font-weight: 600;
+    }
+
+    [data-theme="dark"] .pill-btn {
+      background: rgba(15, 23, 42, 0.7);
+      border-color: var(--glass-border);
+      color: var(--color-text-dim);
+      box-shadow: none;
+    }
+
+    [data-theme="dark"] .pill-btn:hover {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: var(--accent-400);
+      color: var(--color-text);
+      box-shadow: none;
+    }
+
+    [data-theme="dark"] .pill-btn.active {
+      background: var(--gradient-brand);
+      border-color: transparent;
+      color: #ffffff;
+      box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
+    }
+
+    .package-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.75rem;
+    }
+
+    .pkg-card {
+      background: var(--color-surface, #ffffff);
+      border: 1px solid var(--glass-border, rgba(203, 213, 225, 0.8));
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.35s ease;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+    }
+
+    .pkg-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent-500, #2563eb);
+      box-shadow: 0 20px 40px rgba(37, 99, 235, 0.12), 0 0 25px rgba(59, 130, 246, 0.1);
+    }
+
+    .pkg-card--featured {
+      border: 1px solid rgba(37, 99, 235, 0.35);
+      background: linear-gradient(160deg, rgba(37, 99, 235, 0.06) 0%, rgba(255, 255, 255, 0.98) 100%);
+      box-shadow: 0 12px 35px rgba(37, 99, 235, 0.1);
+    }
+
+    .pkg-badge {
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      background: var(--gradient-brand);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.85rem;
+      border-radius: var(--radius-pill);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+    }
+
+    .pkg-category {
+      font-size: var(--fs-eyebrow);
+      color: var(--accent-500, #2563eb);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.35rem;
+    }
+
+    .pkg-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 0.5rem;
+    }
+
+    .pkg-price-wrap {
+      margin: 1rem 0;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .pkg-price {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--accent-500, #2563eb);
+      font-family: var(--font-display);
+    }
+
+    .pkg-price-sub {
+      font-size: 0.85rem;
+      color: var(--color-muted);
+    }
+
+    .pkg-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.5rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      flex-grow: 1;
+    }
+
+    .pkg-features li {
+      font-size: 0.92rem;
+      color: var(--color-text-dim);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      line-height: 1.45;
+    }
+
+    .pkg-features li svg {
+      width: 18px;
+      height: 18px;
+      color: var(--accent-500, #2563eb);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Dark mode overrides for studio package cards */
+    [data-theme="dark"] .pkg-card {
+      background: rgba(19, 27, 46, 0.75);
+      border-color: var(--glass-border);
+      box-shadow: none;
+    }
+    [data-theme="dark"] .pkg-card:hover {
+      border-color: rgba(96, 165, 250, 0.4);
+      box-shadow: 0 20px 40px rgba(2, 8, 23, 0.6), 0 0 25px rgba(59, 130, 246, 0.2);
+    }
+    [data-theme="dark"] .pkg-card--featured {
+      border: 1px solid rgba(96, 165, 250, 0.5);
+      background: linear-gradient(160deg, rgba(29, 78, 216, 0.15) 0%, rgba(19, 27, 46, 0.85) 100%);
+      box-shadow: none;
+    }
+    [data-theme="dark"] .pkg-category {
+      color: var(--accent-400);
+    }
+    [data-theme="dark"] .pkg-price {
+      color: #38bdf8;
+    }
+    [data-theme="dark"] .pkg-features li svg {
+      color: #60a5fa;
+    }
+
+    .addon-tag {
+      display: inline-block;
+      margin-top: 0.5rem;
+      padding: 0.4rem 0.75rem;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px dashed rgba(96, 165, 250, 0.4);
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      color: #93c5fd;
+    }
+
+    /* Studio Rental Table */
+    .rental-table-wrap {
+      overflow-x: auto;
+      background: var(--color-surface, #ffffff);
+      border: 1px solid var(--glass-border, rgba(203, 213, 225, 0.8));
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+    }
+
+    [data-theme="dark"] .rental-table-wrap {
+      background: rgba(19, 27, 46, 0.8);
+      border-color: var(--glass-border);
+      box-shadow: none;
+    }
+
+    .rental-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .rental-table th, .rental-table td {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .rental-table th {
+      color: var(--accent-500, #2563eb);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+    }
+
+    [data-theme="dark"] .rental-table th {
+      color: var(--accent-300);
+    }
+
+    .rental-table td {
+      color: var(--color-text-dim);
+      font-size: 0.95rem;
+    }
+
+    .rental-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .table-price-highlight {
+      color: var(--accent-500, #2563eb);
+    }
+    [data-theme="dark"] .table-price-highlight {
+      color: #60a5fa;
+    }
+
+    .table-price-alt {
+      color: var(--accent-600, #1d4ed8);
+    }
+    [data-theme="dark"] .table-price-alt {
+      color: #38bdf8;
+    }
+
+    /* Sewa Extra Box */
+    .sewa-extra-box {
+      margin-top: 1.75rem;
+      background: var(--color-surface, #ffffff);
+      border: 1px dashed var(--glass-border, rgba(203, 213, 225, 0.8));
+      padding: 1.25rem;
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+    }
+
+    .sewa-extra-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent-500, #2563eb);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: block;
+    }
+
+    [data-theme="dark"] .sewa-extra-box {
+      background: rgba(30, 41, 59, 0.5);
+      border-color: var(--glass-border);
+      box-shadow: none;
+    }
+
+    [data-theme="dark"] .sewa-extra-title {
+      color: var(--accent-300);
+    }
+
+    /* Booking Modal / Drawer */
+    .booking-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--dur-fast) ease;
+    }
+
+    .booking-modal.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .booking-modal__content {
+      background: var(--color-surface);
+      border: 1px solid var(--glass-border-hover);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 580px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+      box-shadow: var(--shadow-lift);
+    }
+
+    .booking-modal__close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1.25rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-text-dim);
+      margin-bottom: 0.4rem;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--color-surface, #ffffff);
+      border: 1px solid var(--glass-border, rgba(203, 213, 225, 0.8));
+      border-radius: var(--radius-sm);
+      color: var(--color-text, #0f172a);
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    [data-theme="dark"] .form-control {
+      background: rgba(10, 14, 26, 0.7);
+      border-color: var(--glass-border);
+      color: #fff;
+    }
+
+    .form-control option {
+      background: var(--color-surface, #ffffff);
+      color: var(--color-text, #0f172a);
+    }
+
+    [data-theme="dark"] .form-control option {
+      background: #0f172a;
+      color: #fff;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent-500, #2563eb);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+
+    .faq-item {
+      background: var(--color-surface, #ffffff);
+      border: 1px solid var(--glass-border, rgba(203, 213, 225, 0.8));
+      border-radius: var(--radius-md);
+      margin-bottom: 1rem;
+      overflow: hidden;
+      transition: all var(--dur-fast) ease;
+      box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+    }
+
+    .faq-item:hover {
+      border-color: var(--accent-500, #2563eb);
+    }
+
+    [data-theme="dark"] .faq-item {
+      background: rgba(19, 27, 46, 0.6);
+      border-color: var(--glass-border);
+      box-shadow: none;
+    }
+
+    [data-theme="dark"] .faq-item:hover {
+      border-color: rgba(96, 165, 250, 0.3);
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 1.25rem 1.5rem;
+      background: none;
+      border: none;
+      color: var(--color-text);
+      font-weight: 600;
+      font-size: 1.05rem;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .faq-answer {
+      padding: 0 1.5rem 1.25rem;
+      color: var(--color-text-dim);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      display: none;
+    }
+
+    .faq-item.is-open .faq-answer {
+      display: block;
+    }
+
+    .faq-item.is-open .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-icon {
+      transition: transform var(--dur-fast) ease;
+    }
+  </style>
+<!-- Lottie Player Support -->
+<script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.4/dist/lottie-player.js"></script>
+</head>
+<body>
+
+  <!-- Loader -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__wrap">
+      <dotlottie-player src="js/loader.json" background="transparent" speed="1" style="width: 160px; height: 160px; margin: 0 auto;" loop autoplay></dotlottie-player>
+      <p class="loader__word"><b>ZADA</b> STUDIO</p>
+    </div>
+  </div>
+
+  <!-- Scroll progress bar -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Custom cursor (desktop) -->
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+  <!-- Floating WhatsApp CTA -->
+  <a href="https://wa.me/6282217771191?text=Halo%20ZADA%20Studio%2C%20saya%20ingin%20tanya%20paket%20foto%20studio" target="_blank" class="float-wa" aria-label="Chat WhatsApp ZADA Studio" style="position: fixed; bottom: 25px; right: 25px; z-index: 99; background: #25D366; color: white; padding: 12px 20px; border-radius: 50px; font-weight: 700; display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4); text-decoration: none; transition: transform 0.3s ease;">
+    <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M12.012 2c-5.506 0-9.989 4.478-9.989 9.984 0 1.758.459 3.474 1.33 4.982l-1.413 5.163 5.285-1.385c1.455.796 3.1 1.215 4.787 1.216h.004c5.505 0 9.988-4.478 9.988-9.984 0-2.665-1.038-5.17-2.925-7.058-1.887-1.887-4.39-2.926-7.057-2.926zm5.82 14.331c-.243.684-1.412 1.303-1.954 1.386-.499.076-1.15.111-3.32-.787-2.775-1.148-4.544-3.985-4.683-4.17-.139-.186-1.127-1.498-1.127-2.858 0-1.36.709-2.028.961-2.285.252-.257.551-.322.735-.322.184 0 .368.002.529.01.171.008.4.008.572.421.184.444.621 1.52.675 1.63.054.111.09.242.018.388-.072.146-.108.236-.216.363-.108.127-.227.284-.325.381-.108.108-.221.226-.095.443.126.217.559.923 1.202 1.496.828.738 1.528.967 1.745 1.076.217.108.343.09.469-.054.126-.144.541-.63.685-.847.144-.217.288-.18.487-.108.198.072 1.262.595 1.478.703.216.108.36.162.414.252.054.09.054.523-.189 1.207z"/></svg>
+    <span>WhatsApp Booking</span>
+  </a>
+
+  <!-- Header / Navbar -->
+  <header class="navbar" id="navbar">
+    <div class="container navbar__inner">
+      <a href="index.html" class="navbar__brand">
+        <img src="zadastudio.png" alt="ZADA STUDIO Logo" class="navbar__brand-mark" />
+        <span class="navbar__brand-name">ZADA STUDIO<span>Creative Visual Solution</span></span>
+      </a>
+
+      <nav class="navbar__links" aria-label="Navigasi Studio">
+        <a href="index.html" class="navbar__link">Beranda</a>
+        <a href="#galeri-foto" class="navbar__link is-active">Galeri Foto</a>
+        <a href="#pricelist" class="navbar__link">Paket &amp; Pricelist</a>
+        <a href="#sewa-studio" class="navbar__link">Sewa Studio</a>
+        <a href="admin-login.html" class="nav-cta">Admin</a>
+      </nav>
+
+      <button class="navbar__toggle" id="navToggle" aria-label="Buka menu navigasi">&#9776;</button>
+    </div>
+
+    <div class="navbar__mobile" id="navMobile">
+      <button class="navbar__mobile-close" id="navMobileClose" aria-label="Tutup menu">&times;</button>
+      <a href="index.html">Beranda Utama</a>
+      <a href="#galeri-foto">Galeri Foto Studio</a>
+      <a href="#pricelist">Paket &amp; Pricelist</a>
+      <a href="#sewa-studio">Sewa Studio</a>
+      <a href="#faq">FAQ</a>
+      <a href="admin-login.html" style="color: var(--accent-300);">Portal Admin</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="studio-hero">
+      <div class="hero__bg">
+        <span class="blob blob--1"></span>
+        <span class="blob blob--2"></span>
+        <div class="mesh-grid"></div>
+      </div>
+
+      <div class="container" style="text-align: center; position: relative; z-index: 2; padding-top: 1.75rem;">
+        <div class="pill" style="margin: 0 auto 1.2rem auto;">
+          <span class="dot"></span> ZADASTUDIO.ID • Creative Photo Studio
+        </div>
+
+        <h1 style="font-size: var(--fs-hero); line-height: 1.15; margin-bottom: 1rem;">
+          <span class="typewriter-line-1">Pricelist &amp; Paket</span><br />
+          <span class="typewriter-line-2 text-gradient gradient-anim">Foto Studio Profesional</span>
+        </h1>
+
+        <p class="lead" style="max-width: 720px; margin: 0 auto 2rem; color: var(--color-text-dim);">
+          Diabadikan dengan pencahayaan profesional, berbagai pilihan konsep background, wardrobe lengkap, dan hasil cetak berkualitas premium siap pakai.
+        </p>
+
+        <!-- Quick Info Banner -->
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-bottom: 2.5rem; font-size: 0.9rem; color: var(--accent-300);">
+          <span style="display: flex; align-items: center; gap: 0.4rem;">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+            Google Drive Softfile Access
+          </span>
+          <span style="display: flex; align-items: center; gap: 0.4rem;">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+            Free High Quality Frame Print
+          </span>
+          <span style="display: flex; align-items: center; gap: 0.4rem;">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+            Multi-Background Option
+          </span>
+        </div>
+
+        <a href="#galeri-foto" class="btn btn-primary btn-lg" style="box-shadow: var(--shadow-glow);">
+          Lihat Galeri Foto &amp; Pricelist
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- STUDIO PHOTO GALLERY SECTION PER CATEGORY -->
+    <section class="section" id="galeri-foto" style="background: rgba(15, 23, 42, 0.02); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border);">
+      <div class="container">
+        <div class="section-head text-center">
+          <span class="eyebrow">Katalog Album Karya &amp; Portofolio Studio</span>
+          <h2>Galeri Album Foto Studio</h2>
+          <p class="lead" style="max-width: 760px; margin: 0 auto;">
+            Pilih album di bawah ini untuk menjelajahi koleksi dokumentasi foto klien ZADA Studio dari berbagai kategori.
+          </p>
+        </div>
+
+        <!-- Gallery Category Pills -->
+        <div class="category-pills" id="galleryCategoryPills">
+          <button class="pill-btn active" data-cat="all">Semua Album</button>
+          <button class="pill-btn" data-cat="wisuda">Wisuda</button>
+          <button class="pill-btn" data-cat="keluarga">Foto Keluarga</button>
+          <button class="pill-btn" data-cat="prewedding">Prewedding</button>
+          <button class="pill-btn" data-cat="portrait">Personal Portrait</button>
+          <button class="pill-btn" data-cat="pasfoto">Pas Foto &amp; Profile</button>
+          <button class="pill-btn" data-cat="produk">Foto Produk</button>
+        </div>
+
+        <!-- Gallery Grid Container -->
+        <div class="gallery-grid" id="galleryGrid"></div>
+
+        <!-- Empty State -->
+        <div id="galleryEmptyState" style="display: none; text-align: center; padding: 4rem 1rem;">
+          <p style="font-size: 1.1rem; color: var(--color-text-dim);">Belum ada foto pada kategori ini.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATEGORY FILTER & PRICELIST SECTION -->
+    <section class="section" id="pricelist">
+      <div class="container">
+        <div class="section-head text-center" id="kategori">
+          <span class="eyebrow">Pilihan Kategori Foto</span>
+          <h2>Daftar Harga &amp; <span class="text-gradient">Paket Foto Studio</span></h2>
+          <p class="lead">Pilih kategori foto di bawah ini untuk melihat detail fasilitas, durasi, dan penawaran terbaik.</p>
+        </div>
+
+        <!-- Filter Pills -->
+        <div class="category-pills" id="categoryPills">
+          <button class="pill-btn active" data-cat="all">Semua Paket</button>
+          <button class="pill-btn" data-cat="keluarga">Foto Keluarga</button>
+          <button class="pill-btn" data-cat="wisuda">Foto Wisuda</button>
+          <button class="pill-btn" data-cat="prewedding">Prewedding</button>
+          <button class="pill-btn" data-cat="pasfoto">Pas Foto &amp; Profile</button>
+          <button class="pill-btn" data-cat="produk">Foto Produk</button>
+          <button class="pill-btn" data-cat="anak">Foto Profesi Anak</button>
+          <button class="pill-btn" data-cat="sewa">Sewa Studio</button>
+        </div>
+
+        <!-- Package Cards Directory -->
+        <div class="package-grid" id="packageGrid">
+
+          <!-- 1. FOTO KELUARGA - BEST VALUE PACK -->
+          <div class="pkg-card" data-category="keluarga">
+            <div>
+              <div class="pkg-category">Foto Keluarga</div>
+              <h3 class="pkg-title">Best Value Pack</h3>
+              <p style="font-size: 0.88rem; color: var(--color-muted); margin-bottom: 0.75rem;">Ideal untuk grup kecil &amp; keluarga inti (1–5 Orang)</p>
+              
+              <div class="pkg-price-wrap">
+                <span class="pkg-price">Rp 399.000</span>
+              </div>
+
+              <ul class="pkg-features">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Untuk grup <strong>1 - 5 Orang</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Durasi foto <strong>30 menit</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Gratis cetak Ukuran A4 + Bingkai</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Bebas pilih <strong>5 File</strong> yang ingin diedit</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Bebas foto di berbagai macam background</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Dapatkan <strong>semua soft file</strong> (Drive 5 hari)</li>
+              </ul>
+            </div>
+            <button class="btn btn-ghost w-full open-booking-btn" data-pkg="Foto Keluarga - Best Value Pack (Rp 399.000)">Pilih Paket Ini</button>
+          </div>
+
+          <!-- 2. FOTO KELUARGA - BEST SELLER PACK -->
+          <div class="pkg-card pkg-card--featured" data-category="keluarga">
+            <span class="pkg-badge">🔥 Best Seller</span>
+            <div>
+              <div class="pkg-category">Foto Keluarga</div>
+              <h3 class="pkg-title">Best Seller Pack</h3>
+              <p style="font-size: 0.88rem; color: var(--color-muted); margin-bottom: 0.75rem;">Cocok untuk keluarga sedang (6–15 Orang)</p>
+              
+              <div class="pkg-price-wrap">
+                <span class="pkg-price">Rp 599.000</span>
+              </div>
+
+              <ul class="pkg-features">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Untuk grup <strong>6 - 15 Orang</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Durasi foto <strong>45 menit</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Gratis cetak Ukuran A3 + Bingkai</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Bebas pilih <strong>10 File</strong> yang ingin diedit</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Bebas foto di berbagai macam background</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Dapatkan <strong>semua soft file</strong> (Drive 5 hari)</li>
+              </ul>
+              <div class="addon-tag">+300K Upgrade Kanvas 60x40 Bingkai Minimalis</div>
+            </div>
+            <button class="btn btn-primary w-full open-booking-btn" style="margin-top: 1rem;" data-pkg="Foto Keluarga - Best Seller Pack (Rp 599.000)">Pilih Paket Ini</button>
+          </div>
+
+          <!-- 3. FOTO KELUARGA - PREMIUM PACK -->
+          <div class="pkg-card" data-category="keluarga">
+            <span class="pkg-badge" style="background: linear-gradient(135deg, #eab308, #ca8a04);">⭐ Premium Big Group</span>
+            <div>
+              <div class="pkg-category">Foto Keluarga</div>
+              <h3 class="pkg-title">Premium Pack</h3>
+              <p style="font-size: 0.88rem; color: var(--color-muted); margin-bottom: 0.75rem;">Untuk keluarga besar hingga 30 Orang</p>
+              
+              <div class="pkg-price-wrap">
+                <span class="pkg-price">Rp 899.000</span>
+              </div>
+
+              <ul class="pkg-features">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Kapasitas <strong>s.d 30 Orang</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Durasi foto <strong>60 menit</strong> (Puas &amp; Rileks)</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Gratis cetak Ukuran A3 + Bingkai</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Bebas pilih <strong>10 File</strong> yang ingin diedit</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Bebas foto di berbagai macam background</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Dapatkan <strong>semua soft file</strong> (Drive 15 hari)</li>
+              </ul>
+              <div class="addon-tag">+300K Upgrade Kanvas 60x40 Bingkai Minimalis</div>
+            </div>
+            <button class="btn btn-ghost w-full open-booking-btn" style="margin-top: 1rem;" data-pkg="Foto Keluarga - Premium Pack (Rp 899.000)">Pilih Paket Ini</button>
+          </div>
+
+          <!-- 4. FOTO WISUDA - PREMIUM PACK -->
+          <div class="pkg-card pkg-card--featured" data-category="wisuda">
+            <span class="pkg-badge">🎓 Grad Pack</span>
+            <div>
+              <div class="pkg-category">Foto Wisuda</div>
+              <h3 class="pkg-title">Wisuda Premium Pack</h3>
+              <p style="font-size: 0.88rem; color: var(--color-muted); margin-bottom: 0.75rem;">1 Wisudawan + Pendamping S.d 15 Anggota Keluarga</p>
+              
+              <div class="pkg-price-wrap">
+                <span class="pkg-price">Rp 599.000</span>
+              </div>
+
+              <ul class="pkg-features">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> 1 Wisudawan, <strong>bisa ajak s/d 15 keluarga</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Durasi sesi foto <strong>40 menit</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Gratis Cetak A3 + Bingkai</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Bebas pilih <strong>10 File</strong> diedit</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Bebas foto di berbagai background studio</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Dapatkan <strong>semua soft file</strong> (Drive 10 hari)</li>
+              </ul>
+              <div class="addon-tag">+300K Upgrade Kanvas 60x40 Bingkai Minimalis</div>
+            </div>
+            <button class="btn btn-primary w-full open-booking-btn" style="margin-top: 1rem;" data-pkg="Foto Wisuda - Premium Pack (Rp 599.000)">Pilih Paket Wisuda</button>
+          </div>
+
+          <!-- 5. PREWEDDING - BEST SELLER PACK -->
+          <div class="pkg-card" data-category="prewedding">
+            <div>
+              <div class="pkg-category">Prewedding</div>
+              <h3 class="pkg-title">Prewedding Best Seller</h3>
+              <p style="font-size: 0.88rem; color: var(--color-muted); margin-bottom: 0.75rem;">Sesi hangat &amp; romantis 60 menit</p>
+              
+              <div class="pkg-price-wrap">
+                <span class="pkg-price">Rp 699.000</span>
+              </div>
+
+              <ul class="pkg-features">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Sesi foto selama <strong>60 menit</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Free Bingkai Cetak A3</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Bebas pilih <strong>10 File</strong> yang ingin diedit</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Bebas foto di berbagai background berbeda</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Dapatkan <strong>semua soft file</strong> (Drive 1 bulan)</li>
+              </ul>
+            </div>
+            <button class="btn btn-ghost w-full open-booking-btn" data-pkg="Prewedding - Best Seller Pack (Rp 699.000)">Pilih Paket Ini</button>
+          </div>
+
+          <!-- 6. PREWEDDING - PREMIUM PACK -->
+          <div class="pkg-card pkg-card--featured" data-category="prewedding">
+            <span class="pkg-badge">👑 Fully Included</span>
+            <div>
+              <div class="pkg-category">Prewedding</div>
+              <h3 class="pkg-title">Prewedding Premium</h3>
+              <p style="font-size: 0.88rem; color: var(--color-muted); margin-bottom: 0.75rem;">Lengkap dengan Make Up &amp; Baju Adat</p>
+              
+              <div class="pkg-price-wrap">
+                <span class="pkg-price">Rp 1.700.000</span>
+              </div>
+
+              <ul class="pkg-features">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>FREE MAKE UP</strong> Profesional</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>FREE BAJU ADAT</strong> Pilihan</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Sesi foto selama <strong>120 menit</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Gratis cetak ukuran <strong>A3 + Bingkai</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Bebas pilih <strong>10 File</strong> yang diedit</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Dapatkan <strong>semua soft file</strong> (Drive 1 bulan)</li>
+              </ul>
+            </div>
+            <button class="btn btn-primary w-full open-booking-btn" data-pkg="Prewedding - Premium Pack (Rp 1.700.000)">Pilih Prewedding Complete</button>
+          </div>
+
+          <!-- 7. PAS FOTO -->
+          <div class="pkg-card" data-category="pasfoto">
+            <div>
+              <div class="pkg-category">Pas Foto &amp; Dokumen</div>
+              <h3 class="pkg-title">Pas Foto Standard</h3>
+              <p style="font-size: 0.88rem; color: var(--color-muted); margin-bottom: 0.75rem;">Ijazah, Nikah, Visa, Kerja, CPNS</p>
+              
+              <div class="pkg-price-wrap">
+                <span class="pkg-price">Rp 75.000</span>
+              </div>
+
+              <ul class="pkg-features">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Untuk 1 orang (1 Pose)</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Pilih warna background: <strong>Merah / Biru / Putih</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Cetak 2x3, 3x4, 4x6</strong> (up to 10 pcs)</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Gratis semua soft file</strong> High Resolution</li>
+              </ul>
+            </div>
+            <button class="btn btn-ghost w-full open-booking-btn" data-pkg="Pas Foto Standard (Rp 75.000)">Pilih Pas Foto</button>
+          </div>
+
+          <!-- 8. FOTO PROFILE / KOREAN LOOK -->
+          <div class="pkg-card" data-category="pasfoto">
+            <div>
+              <div class="pkg-category">Foto Profile</div>
+              <h3 class="pkg-title">Korean Aesthetic / Professional</h3>
+              <p style="font-size: 0.88rem; color: var(--color-muted); margin-bottom: 0.75rem;">Tampilan K-Look atau Eksekutif Profesional</p>
+              
+              <div class="pkg-price-wrap">
+                <span class="pkg-price">Rp 200.000</span>
+              </div>
+
+              <ul class="pkg-features">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>5 Pose foto</strong> pilihan</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Untuk 1 Orang</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Menyesuaikan keinginan &amp; personal branding</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Cetak 4R (1 Lembar)</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Gratis semua soft file</strong></li>
+              </ul>
+            </div>
+            <button class="btn btn-ghost w-full open-booking-btn" data-pkg="Foto Profile Korean/Professional Look (Rp 200.000)">Pilih Foto Profile</button>
+          </div>
+
+          <!-- 9. FOTO PROFILE - COMBO FULL -->
+          <div class="pkg-card pkg-card--featured" data-category="pasfoto">
+            <span class="pkg-badge">🌟 Ultimate Combo</span>
+            <div>
+              <div class="pkg-category">Foto Profile</div>
+              <h3 class="pkg-title">Combo Professional &amp; Korean Look</h3>
+              <p style="font-size: 0.88rem; color: var(--color-muted); margin-bottom: 0.75rem;">Gabungan Pas Foto + Professional + K-Look</p>
+              
+              <div class="pkg-price-wrap">
+                <span class="pkg-price">Rp 300.000</span>
+              </div>
+
+              <ul class="pkg-features">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Pas Foto Standar (Merah/Biru/Putih)</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Professional &amp; Korean Aesthetic Look</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Total <strong>10 Pose foto</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Cetak 4R (2 Lembar)</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Gratis semua soft file</strong></li>
+              </ul>
+            </div>
+            <button class="btn btn-primary w-full open-booking-btn" data-pkg="Combo Professional & Korean Look (Rp 300.000)">Pilih Combo Profile</button>
+          </div>
+
+          <!-- 10. FOTO PRODUK -->
+          <div class="pkg-card" data-category="produk">
+            <div>
+              <div class="pkg-category">Foto Produk</div>
+              <h3 class="pkg-title">Foto Produk Commercial</h3>
+              <p style="font-size: 0.88rem; color: var(--color-muted); margin-bottom: 0.75rem;">Untuk Katalog UMKM, Online Shop &amp; Brand</p>
+              
+              <div class="pkg-price-wrap">
+                <span class="pkg-price">Rp 75.000</span>
+                <span class="pkg-price-sub">/ Produk</span>
+              </div>
+
+              <ul class="pkg-features">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Didampingi <strong>Fotografer Profesional</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Bebas konsultasi konsep</strong> &amp; lighting</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Bebas pilih <strong>5 File</strong> diedit / produk</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Dapatkan <strong>semua soft file</strong> (Drive 7 hari)</li>
+              </ul>
+            </div>
+            <button class="btn btn-ghost w-full open-booking-btn" data-pkg="Foto Produk Commercial (Rp 75.000/produk)">Pilih Foto Produk</button>
+          </div>
+
+          <!-- 11. FOTO PROFESI ANAK -->
+          <div class="pkg-card" data-category="anak">
+            <div>
+              <div class="pkg-category">Foto Profesi Anak</div>
+              <h3 class="pkg-title">Foto Profesi Cita-Cita</h3>
+              <p style="font-size: 0.88rem; color: var(--color-muted); margin-bottom: 0.75rem;">TK / PAUD / SD - Kostum Lengkap</p>
+              
+              <div class="pkg-price-wrap">
+                <span class="pkg-price">Rp 150.000</span>
+              </div>
+
+              <ul class="pkg-features">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> Bebas pilih <strong>30 jenis baju profesi</strong> (Dokter, Polisi, Pilot, Tentara, dll)</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>5 Pose foto</strong> menggemaskan</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Free Cetak Ukuran A3 + Bingkai</strong></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg> <strong>Free Semua Soft File</strong></li>
+              </ul>
+            </div>
+            <button class="btn btn-ghost w-full open-booking-btn" data-pkg="Foto Profesi Anak (Rp 150.000)">Pilih Profesi Anak</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SEWA STUDIO SECTION -->
+    <section class="section" id="sewa-studio" style="background: var(--color-secondary); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border);">
+      <div class="container">
+        <div class="section-head text-center">
+          <span class="eyebrow">Space &amp; Equipment Rental</span>
+          <h2>Sewa Studio <span class="text-gradient">Tanpa Fotografer</span></h2>
+          <p class="lead">Sewa space studio mandiri untuk fotografer profesional, content creator, shoot videografi, atau foto mandiri.</p>
+        </div>
+
+        <div class="rental-table-wrap">
+          <table class="rental-table">
+            <thead>
+              <tr>
+                <th>Durasi</th>
+                <th>2 Spot Studio</th>
+                <th>All Access Studio</th>
+                <th>Lighting Equipment Included</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>60 Menit</strong></td>
+                <td><strong class="table-price-highlight">Rp 250.000</strong></td>
+                <td><span style="color: var(--color-muted);">-</span></td>
+                <td rowspan="3" style="vertical-align: top; font-size: 0.88rem; color: var(--color-text-dim);">
+                  <ul style="padding-left: 1.2rem; margin: 0;">
+                    <li>Lighting Godox DP600III</li>
+                    <li>Lighting Godox SK400II</li>
+                    <li>Softbox Octa &amp; Stripbox</li>
+                    <li>Reflector Board</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>180 Menit (3 Jam)</strong></td>
+                <td><strong class="table-price-highlight">Rp 500.000</strong></td>
+                <td><strong class="table-price-alt">Rp 600.000</strong></td>
+              </tr>
+              <tr>
+                <td><strong>8 Jam (Full Day)</strong></td>
+                <td><strong class="table-price-highlight">Rp 1.000.000</strong></td>
+                <td><strong class="table-price-alt">Rp 1.300.000</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Additional Lights & Accessories -->
+        <div class="sewa-extra-box">
+          <div>
+            <span class="sewa-extra-title">+ Additional Lighting &amp; FX:</span>
+            <span style="font-size: 0.92rem; color: var(--color-text-dim);">
+              Godox Continuous Light SL100D (+100k) &bull; SAP Projector Aesthetic Concept (+100k) &bull; Various Color LED RGB Light (+50k)
+            </span>
+          </div>
+          <button class="btn btn-primary open-booking-btn" data-pkg="Sewa Studio Space Rental">Sewa Studio Sekarang</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="section" id="faq">
+      <div class="container" style="max-width: 860px;">
+        <div class="section-head text-center">
+          <span class="eyebrow">Pertanyaan Umum</span>
+          <h2>Informasi &amp; <span class="text-gradient">FAQ Studio</span></h2>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Bagaimana cara melakukan reservasi jadwal foto di ZADA Studio?</span>
+              <svg class="faq-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="faq-answer">
+              Anda bisa memilih paket yang diinginkan lalu menekan tombol "Pilih Paket Ini". Sistem akan mengarahkan Anda langsung ke WhatsApp resmi ZADA Studio untuk mengonfirmasi tanggal, jam sesi, dan membayar DP booking.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Berapa lama akses Google Drive untuk mengunduh soft file foto?</span>
+              <svg class="faq-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="faq-answer">
+              Lama akses Google Drive disesuaikan dengan jenis paket: 5 hari (Paket Keluarga Hemat), 10 hari (Paket Wisuda), 15 hari (Paket Premium Keluarga), hingga 1 bulan penuh untuk paket Prewedding.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Apakah bisa membawa baju tambahan / berganti kostum saat sesi?</span>
+              <svg class="faq-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="faq-answer">
+              Bisa! Terutama untuk paket durasi 45-60 menit atau paket Prewedding 120 menit, Anda bebas berganti kostum dan menggunakan berbagai opsi background yang tersedia di studio kami.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Berapa lama estimasi pengerjaan cetak bingkai A3 / A4 / Kanvas?</span>
+              <svg class="faq-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="faq-answer">
+              Setelah Anda memilih foto yang ingin diedit, tim editor kami akan menyelesaikan editing dalam 3-5 hari kerja. Pengerjaan cetak &amp; bingkai membutuhkan waktu sekitar 2-4 hari sebelum siap diambil atau dikirim.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- BOOKING MODAL -->
+  <div class="booking-modal" id="bookingModal">
+    <div class="booking-modal__content">
+      <button class="booking-modal__close" id="closeBookingModal">&times;</button>
+      <h3 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 0.25rem;">Form Reservasi ZADA Studio</h3>
+      <p style="font-size: 0.88rem; color: var(--color-muted); margin-bottom: 1.25rem;">Isi tanggal &amp; jam untuk langsung terhubung dengan admin WhatsApp ZADA Studio.</p>
+
+      <form id="bookingForm">
+        <div class="form-group">
+          <label>Paket Pilihan</label>
+          <input type="text" id="inputPackage" class="form-control" readonly style="background: var(--glass-bg-strong); color: var(--color-text);" />
+        </div>
+
+        <div class="form-group">
+          <label for="inputName">Nama Lengkap</label>
+          <input type="text" id="inputName" class="form-control" placeholder="Contoh: Budi Santoso" required />
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label for="inputDate">Rencana Tanggal Foto</label>
+            <input type="date" id="inputDate" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="inputTime">Pilihan Jam / Sesi (Format 1-24 Jam)</label>
+
+            <select id="inputTime" class="form-control" required>
+              <option value="" disabled selected>-- Pilih Jam Sesi (01:00 - 24:00) --</option>
+              <option value="01:00 WIB">01:00 WIB</option>
+              <option value="02:00 WIB">02:00 WIB</option>
+              <option value="03:00 WIB">03:00 WIB</option>
+              <option value="04:00 WIB">04:00 WIB</option>
+              <option value="05:00 WIB">05:00 WIB</option>
+              <option value="06:00 WIB">06:00 WIB</option>
+              <option value="07:00 WIB">07:00 WIB</option>
+              <option value="08:00 WIB">08:00 WIB</option>
+              <option value="09:00 WIB">09:00 WIB</option>
+              <option value="10:00 WIB">10:00 WIB</option>
+              <option value="11:00 WIB">11:00 WIB</option>
+              <option value="12:00 WIB">12:00 WIB</option>
+              <option value="13:00 WIB">13:00 WIB</option>
+              <option value="14:00 WIB">14:00 WIB</option>
+              <option value="15:00 WIB">15:00 WIB</option>
+              <option value="16:00 WIB">16:00 WIB</option>
+              <option value="17:00 WIB">17:00 WIB</option>
+              <option value="18:00 WIB">18:00 WIB</option>
+              <option value="19:00 WIB">19:00 WIB</option>
+              <option value="20:00 WIB">20:00 WIB</option>
+              <option value="21:00 WIB">21:00 WIB</option>
+              <option value="22:00 WIB">22:00 WIB</option>
+              <option value="23:00 WIB">23:00 WIB</option>
+              <option value="24:00 WIB">24:00 WIB (00:00)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputNote">Catatan / Jumlah Anggota (Opsional)</label>
+          <textarea id="inputNote" class="form-control" rows="2" placeholder="Contoh: 8 orang anggota keluarga + 1 anak kecil"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-full btn-lg" style="margin-top: 0.5rem; justify-content: center;">
+          Kirim Reservasi ke WhatsApp (0822-1777-1191)
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" id="contact">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer__brand">
+            <img src="zadastudio.png" alt="ZADA STUDIO Logo" style="width: 28px; height: 28px; object-fit: contain;" />
+            ZADA STUDIO
+          </div>
+          <p style="margin-top:0.8rem;max-width:38ch;font-size:0.88rem;">ZADA Studio — Creative Visual Solution. Menyediakan layanan Foto Studio, Photo Booth, dan Yearbook.</p>
+        </div>
+
+        <div>
+          <h4>Alamat Utama</h4>
+          <p style="max-width:38ch;font-size:0.88rem;">Jl. Ceger Raya No.3, RW.4, Jurang Manggu Tim., Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15222</p>
+        </div>
+
+        <div>
+          <h4>Layanan Utama</h4>
+          <ul>
+            <li><a href="studio.html">Foto Studio</a></li>
+            <li><a href="photobooth.html">Photo Booth</a></li>
+            <li><a href="yearbook.html">Yearbook</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Kontak Resmi</h4>
+          <ul>
+            <li><a href="mailto:zadafotostudio@gmail.com">zadafotostudio@gmail.com</a></li>
+            <li><a href="https://wa.me/6282217771191" target="_blank" rel="noopener">+62 822-1777-1191</a></li>
+            <li><a href="https://www.instagram.com/zadastudio.id" target="_blank" rel="noopener">Instagram ZADA Studio</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 ZADA Studio. Seluruh hak cipta dilindungi.</span>
+        <span>Creative Visual Solution</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT -->
+  <script>
+    // Category Filter Pills
+    const pills = document.querySelectorAll('#categoryPills .pill-btn');
+    const cards = document.querySelectorAll('#packageGrid .pkg-card');
+
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        pills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+
+        const cat = pill.getAttribute('data-cat');
+        cards.forEach(card => {
+          if (cat === 'all' || card.getAttribute('data-category') === cat) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Booking Modal Functionality
+    const modal = document.getElementById('bookingModal');
+    const closeBtn = document.getElementById('closeBookingModal');
+    const inputPackage = document.getElementById('inputPackage');
+    const openBtns = document.querySelectorAll('.open-booking-btn');
+
+    openBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const pkgName = btn.getAttribute('data-pkg') || 'Sewa / Konsultasi Studio';
+        inputPackage.value = pkgName;
+        modal.classList.add('is-open');
+      });
+    });
+
+    closeBtn.addEventListener('click', () => {
+      modal.classList.remove('is-open');
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('is-open');
+      }
+    });
+
+    // Booking Form Submit to WhatsApp
+    document.getElementById('bookingForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const pkg = inputPackage.value;
+      const name = document.getElementById('inputName').value;
+      const date = document.getElementById('inputDate').value;
+      const time = document.getElementById('inputTime').value;
+      const note = document.getElementById('inputNote').value;
+
+      const text = `Halo ZADA Studio, saya ingin melakukan booking studio:%0A%0A` +
+        `• *Paket*: ${pkg}%0A` +
+        `• *Nama*: ${name}%0A` +
+        `• *Tanggal*: ${date}%0A` +
+        `• *Jam Sesi*: ${time}%0A` +
+        (note ? `• *Catatan*: ${note}%0A%0A` : `%0A`) +
+        `Mohon informasi ketersediaan jadwal dan tata cara pembayaran DP. Terima kasih!`;
+
+      window.open(`https://wa.me/6282217771191?text=${text}`, '_blank');
+      modal.classList.remove('is-open');
+    });
+
+    // FAQ Accordion
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    faqQuestions.forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.parentElement;
+        item.classList.toggle('is-open');
+      });
+    });
+
+    // Mobile Navbar Toggle
+    const navToggle = document.getElementById('navToggle');
+    const navMobile = document.getElementById('navMobile');
+    const navMobileClose = document.getElementById('navMobileClose');
+
+    if (navToggle && navMobile) {
+      navToggle.addEventListener('click', () => navMobile.classList.add('is-open'));
+      navMobileClose.addEventListener('click', () => navMobile.classList.remove('is-open'));
+    }
+  </script>
+  <button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">&#8593;</button>
+  <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script defer src="js/firebase-init.js"></script>
+  <script defer src="js/data.js"></script>
+  <script defer src="js/gallery.js"></script>
+  <script defer src="js/zada-common.js"></script>
+</body>
+</html>
