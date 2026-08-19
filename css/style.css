@@ -3678,4 +3678,346 @@ tr:hover td {
   }
 }
 
+/* ==========================================================================
+   ADMIN INVOICE & RECEIPT GENERATOR STYLES
+   ========================================================================== */
+.invoice-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .invoice-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.invoice-form-card {
+  background: var(--color-surface);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-card);
+}
+
+.invoice-preview-container {
+  position: sticky;
+  top: 90px;
+}
+
+.receipt-paper {
+  background: #ffffff;
+  color: #1e293b;
+  border-radius: 12px;
+  padding: 2.2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  font-family: 'Inter', system-ui, sans-serif;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+/* Thermal receipt mode */
+.receipt-paper.thermal-mode {
+  max-width: 380px;
+  margin: 0 auto;
+  padding: 1.5rem 1.2rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.82rem;
+  border-top: 4px dashed #94a3b8;
+  border-bottom: 4px dashed #94a3b8;
+  border-radius: 0;
+}
+
+.receipt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.thermal-mode .receipt-header {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-bottom: 1px dashed #cbd5e1;
+}
+
+.receipt-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.receipt-brand img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.receipt-brand-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #0f172a;
+  line-height: 1.1;
+}
+
+.receipt-brand-title small {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #2563eb;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.receipt-meta {
+  text-align: right;
+}
+
+.thermal-mode .receipt-meta {
+  text-align: center;
+  margin-top: 0.8rem;
+}
+
+.receipt-meta-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: 0.05em;
+  color: #2563eb;
+}
+
+.receipt-meta-num {
+  font-size: 0.85rem;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #475569;
+  font-weight: 600;
+}
+
+.receipt-badge-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 6px;
+  font-weight: 800;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 0.4rem;
+  border: 2px solid currentColor;
+}
+
+.stamp-lunas {
+  color: #16a34a;
+  background: rgba(22, 163, 74, 0.08);
+}
+
+.stamp-dp {
+  color: #d97706;
+  background: rgba(217, 119, 6, 0.08);
+}
+
+.stamp-pending {
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.08);
+}
+
+.receipt-client-box {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.85rem;
+  color: #334155;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.thermal-mode .receipt-client-box {
+  background: transparent;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed #cbd5e1;
+  border-radius: 0;
+  grid-template-columns: 1fr;
+  gap: 0.25rem;
+}
+
+.receipt-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.25rem;
+}
+
+.receipt-table th {
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+}
+
+.thermal-mode .receipt-table th {
+  background: transparent;
+  border-bottom: 1px dashed #cbd5e1;
+  padding: 0.4rem 0.2rem;
+}
+
+.receipt-table td {
+  padding: 0.75rem 0.8rem;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.85rem;
+  color: #1e293b;
+}
+
+.thermal-mode .receipt-table td {
+  padding: 0.4rem 0.2rem;
+  border-bottom: 1px dotted #e2e8f0;
+}
+
+.receipt-table tr:last-child td {
+  border-bottom: none;
+}
+
+.receipt-totals {
+  margin-left: auto;
+  max-width: 280px;
+  font-size: 0.88rem;
+  margin-bottom: 1.25rem;
+}
+
+.thermal-mode .receipt-totals {
+  max-width: 100%;
+  border-top: 1px dashed #cbd5e1;
+  padding-top: 0.5rem;
+}
+
+.receipt-total-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.3rem 0;
+  color: #475569;
+}
+
+.receipt-total-row.grand {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #0f172a;
+  border-top: 2px solid #e2e8f0;
+  padding-top: 0.5rem;
+  margin-top: 0.3rem;
+}
+
+.receipt-total-row.dp {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.receipt-total-row.remaining {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.receipt-notes-box {
+  border-left: 3px solid #2563eb;
+  background: #f8fafc;
+  padding: 0.75rem 1rem;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.8rem;
+  color: #475569;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+.thermal-mode .receipt-notes-box {
+  border-left: none;
+  border-top: 1px dashed #cbd5e1;
+  border-radius: 0;
+  padding: 0.5rem 0;
+  background: transparent;
+}
+
+.receipt-footer-sign {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #f1f5f9;
+  font-size: 0.78rem;
+  color: #64748b;
+}
+
+.thermal-mode .receipt-footer-sign {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-top: 1px dashed #cbd5e1;
+  gap: 0.8rem;
+}
+
+.receipt-signature-box {
+  text-align: center;
+  min-width: 140px;
+}
+
+.receipt-signature-line {
+  border-bottom: 1px solid #94a3b8;
+  height: 48px;
+  margin-bottom: 4px;
+}
+
+/* Print Specific Rules */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .admin-top,
+  .admin-head,
+  .invoice-form-card,
+  .toast,
+  .scroll-progress,
+  .invoice-actions-bar,
+  .history-section,
+  .no-print {
+    display: none !important;
+  }
+
+  .invoice-layout {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .invoice-preview-container {
+    position: static !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .receipt-paper {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
 

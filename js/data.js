@@ -89,6 +89,76 @@ const PROGRESS_STAGES = [
   },
 ];
 
+const DEFAULT_INITIAL_SCHOOLS = [
+  {
+    id: "sma-1-jakarta",
+    school: "SMA Negeri 1 Jakarta",
+    level: "SMA",
+    palette: 0,
+    cover: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1200&auto=format&fit=crop",
+    hasPassword: false,
+    editionCount: 3,
+    editions: [
+      { id: "ed-1", year: 2026, category: "Premium", title: "Adhisti Pratama — Angkatan 65", cover: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1200&auto=format&fit=crop", flipbookUrl: "https://anyflip.com" },
+      { id: "ed-2", year: 2025, category: "Standard", title: "Nirwana Cahya — Angkatan 64", cover: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1200&auto=format&fit=crop", flipbookUrl: "https://anyflip.com" },
+      { id: "ed-3", year: 2024, category: "Standard", title: "Gita Mandala — Angkatan 63", cover: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1200&auto=format&fit=crop", flipbookUrl: "https://anyflip.com" }
+    ],
+    progress: {
+      currentStage: 4,
+      printOrdered: true,
+      completed: false,
+      note: "Draf buku telah disetujui, saat ini dalam proses publikasi flipbook.",
+      pic: "Tim Desain & Produksi ZADA",
+      statusBadge: "Lancar",
+      updatedAt: "2026-08-15T10:00:00Z"
+    }
+  },
+  {
+    id: "smp-labschool-kebayoran",
+    school: "SMP Labschool Kebayoran",
+    level: "SMP",
+    palette: 1,
+    cover: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1200&auto=format&fit=crop",
+    hasPassword: false,
+    editionCount: 2,
+    editions: [
+      { id: "ed-4", year: 2026, category: "Premium", title: "Kembara Bhakti — Angkatan 23", cover: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1200&auto=format&fit=crop", flipbookUrl: "https://anyflip.com" },
+      { id: "ed-5", year: 2025, category: "Standard", title: "Ananta Swasti — Angkatan 22", cover: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1200&auto=format&fit=crop", flipbookUrl: "https://anyflip.com" }
+    ],
+    progress: {
+      currentStage: 3,
+      printOrdered: true,
+      completed: false,
+      note: "Tahap revisi tata letak oleh komite sekolah.",
+      pic: "Tim Produksi ZADA",
+      statusBadge: "Lancar",
+      updatedAt: "2026-08-16T14:00:00Z"
+    }
+  },
+  {
+    id: "sma-al-azhar-1-jakarta",
+    school: "SMA Islam Al Azhar 1",
+    level: "SMA",
+    palette: 2,
+    cover: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1200&auto=format&fit=crop",
+    hasPassword: false,
+    editionCount: 2,
+    editions: [
+      { id: "ed-6", year: 2026, category: "Premium", title: "Gautama Arkan — Angkatan 38", cover: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1200&auto=format&fit=crop", flipbookUrl: "https://anyflip.com" },
+      { id: "ed-7", year: 2025, category: "Premium", title: "Baskara Yudha — Angkatan 37", cover: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1200&auto=format&fit=crop", flipbookUrl: "https://anyflip.com" }
+    ],
+    progress: {
+      currentStage: 2,
+      printOrdered: true,
+      completed: false,
+      note: "Sesi foto on-location & pemotretan kelas selesai.",
+      pic: "Tim Fotografer ZADA",
+      statusBadge: "Lancar",
+      updatedAt: "2026-08-18T09:30:00Z"
+    }
+  }
+];
+
 function defaultProgress() {
   return {
     currentStage: 1,
@@ -105,14 +175,57 @@ function defaultProgress() {
 
 const ZadaData = {
   async getAllSchools() {
-    const snap = await db.collection("schools").get();
-    return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    let schools = [];
+    try {
+      if (typeof db !== "undefined" && db) {
+        const fetchPromise = db.collection("schools").get();
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Firestore schools timeout")), 3500)
+        );
+        const snap = await Promise.race([fetchPromise, timeoutPromise]);
+        if (!snap.empty) {
+          schools = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+          try {
+            localStorage.setItem("zada_schools_cache", JSON.stringify(schools));
+          } catch (e) {}
+          return schools;
+        }
+      }
+    } catch (e) {
+      console.warn("Firestore schools fetch fallback to cache:", e);
+    }
+
+    try {
+      const cached = localStorage.getItem("zada_schools_cache");
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length) return parsed;
+      }
+    } catch (e) {}
+
+    return DEFAULT_INITIAL_SCHOOLS;
   },
 
   async getSchoolById(id) {
-    const doc = await db.collection("schools").doc(id).get();
-    if (!doc.exists) return null;
-    return { id: doc.id, ...doc.data() };
+    if (!id) return null;
+    const targetId = String(id).trim();
+    try {
+      if (typeof db !== "undefined" && db) {
+        const fetchPromise = db.collection("schools").doc(targetId).get();
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Firestore school timeout")), 3500)
+        );
+        const doc = await Promise.race([fetchPromise, timeoutPromise]);
+        if (doc.exists) {
+          return { id: doc.id, ...doc.data() };
+        }
+      }
+    } catch (e) {
+      console.warn("Firestore getSchoolById fallback to cache for id:", targetId, e);
+    }
+
+    const all = await this.getAllSchools();
+    return all.find((s) => String(s.id).trim() === targetId) || null;
   },
 
   /* Attempt to unlock a protected school's portal (editions + progress)
@@ -485,8 +598,166 @@ const ZadaData = {
     const updated = current.filter((p) => p && String(p.id).trim() !== targetId);
     localStorage.setItem("zada_studio_gallery", JSON.stringify(updated));
     return true;
+  },
+
+  /* ------------------------------------------------------------------ */
+  /* Invoices & Receipts Management                                     */
+  /* ------------------------------------------------------------------ */
+  async getAllInvoices() {
+    let invoices = [];
+    try {
+      if (typeof db !== "undefined" && db) {
+        const snap = await db.collection("invoices").get();
+        if (!snap.empty) {
+          snap.forEach((doc) => invoices.push({ id: doc.id, ...doc.data() }));
+        }
+      }
+    } catch (e) {
+      console.warn("Firestore invoices fetch fallback to local cache:", e);
+    }
+
+    if (!invoices.length) {
+      try {
+        const cached = localStorage.getItem("zada_invoices");
+        invoices = cached ? JSON.parse(cached) : [...DEFAULT_INVOICES];
+      } catch (e) {
+        invoices = [...DEFAULT_INVOICES];
+      }
+    }
+
+    // Sort newest first
+    invoices.sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date));
+    return invoices;
+  },
+
+  async getInvoiceById(id) {
+    if (!id) return null;
+    const targetId = String(id).trim();
+    try {
+      if (typeof db !== "undefined" && db) {
+        const doc = await db.collection("invoices").doc(targetId).get();
+        if (doc.exists) {
+          return { id: doc.id, ...doc.data() };
+        }
+      }
+    } catch (e) {}
+
+    const all = await this.getAllInvoices();
+    return all.find((inv) => String(inv.id).trim() === targetId || String(inv.invoiceNumber).trim() === targetId) || null;
+  },
+
+  async saveInvoice(invoiceData) {
+    const id = invoiceData.id || `INV-${Date.now().toString(36).toUpperCase()}`;
+    const payload = {
+      ...invoiceData,
+      id,
+      updatedAt: new Date().toISOString()
+    };
+    if (!payload.createdAt) {
+      payload.createdAt = new Date().toISOString();
+    }
+
+    try {
+      if (typeof db !== "undefined" && db) {
+        await db.collection("invoices").doc(id).set(payload, { merge: true });
+      }
+    } catch (e) {
+      console.warn("Firestore save invoice error, saving locally:", e);
+    }
+
+    // Save to localStorage
+    try {
+      const current = await this.getAllInvoices();
+      const idx = current.findIndex((inv) => String(inv.id).trim() === String(id).trim());
+      let updated;
+      if (idx >= 0) {
+        current[idx] = payload;
+        updated = current;
+      } else {
+        updated = [payload, ...current];
+      }
+      localStorage.setItem("zada_invoices", JSON.stringify(updated));
+    } catch (e) {}
+
+    return payload;
+  },
+
+  async deleteInvoice(id) {
+    if (!id) return false;
+    const targetId = String(id).trim();
+    try {
+      if (typeof db !== "undefined" && db) {
+        await db.collection("invoices").doc(targetId).delete();
+      }
+    } catch (e) {
+      console.warn("Firestore delete invoice error:", e);
+    }
+
+    try {
+      const current = await this.getAllInvoices();
+      const updated = current.filter((inv) => String(inv.id).trim() !== targetId);
+      localStorage.setItem("zada_invoices", JSON.stringify(updated));
+    } catch (e) {}
+
+    return true;
   }
 };
+
+const DEFAULT_INVOICES = [
+  {
+    id: "INV-20260819-001",
+    invoiceNumber: "INV/ZD/2026/08/001",
+    date: "2026-08-19",
+    createdAt: "2026-08-19T08:30:00Z",
+    dueDate: "2026-08-20",
+    clientName: "Naufal Hadi & Keluarga",
+    clientPhone: "081298765432",
+    clientEmail: "naufal.hadi@gmail.com",
+    clientAddress: "Bintaro Jaya Sektor 9, Tangerang Selatan",
+    serviceType: "studio",
+    serviceTitle: "Paket Wisuda & Keluarga Exclusive",
+    items: [
+      { description: "Paket Wisuda Platinum (120 Menit Studio + 10 Edited Photos + 1 Cetak Frame 16RS)", qty: 1, price: 750000, total: 750000 },
+      { description: "Extra Cetak Frame Minimalist 12R + Cetak High-Res", qty: 2, price: 125000, total: 250000 },
+      { description: "All Softcopy File Google Drive High Resolution", qty: 1, price: 100000, total: 100000 }
+    ],
+    subtotal: 1100000,
+    discount: 100000,
+    totalAmount: 1000000,
+    downPayment: 1000000,
+    remainingBalance: 0,
+    paymentMethod: "Transfer BCA",
+    paymentStatus: "lunas",
+    notes: "Jadwal sesi foto: Sabtu, 22 Agustus 2026, Pukul 13:30 - 15:30 WIB di Studio A ZADA. Harap hadir 15 menit sebelum sesi.",
+    adminName: "Admin ZADA Studio"
+  },
+  {
+    id: "INV-20260818-002",
+    invoiceNumber: "INV/ZD/2026/08/002",
+    date: "2026-08-18",
+    createdAt: "2026-08-18T14:15:00Z",
+    dueDate: "2026-08-25",
+    clientName: "PT Sinergi Media Kreasi (Wedding Event)",
+    clientPhone: "085711223344",
+    clientEmail: "event@sinergimedia.co.id",
+    clientAddress: "Grand Ballroom Hotel Mulia Senayan, Jakarta",
+    serviceType: "photobooth",
+    serviceTitle: "Layanan Unlimited Photobooth 3 Jam",
+    items: [
+      { description: "Paket Photo Booth Unlimited Cetak 3 Jam (Custom Frame, Lighting Pro & Instant Print 4R)", qty: 1, price: 3200000, total: 3200000 },
+      { description: "Custom Backdrop 3x2.5m + Fun Party Props", qty: 1, price: 500000, total: 500000 }
+    ],
+    subtotal: 3700000,
+    discount: 200000,
+    totalAmount: 3500000,
+    downPayment: 1500000,
+    remainingBalance: 2000000,
+    paymentMethod: "Transfer Mandiri",
+    paymentStatus: "dp",
+    notes: "DP 1.500.000 telah diterima. Pelunasan sisa 2.000.000 dibayarkan H-1 acara tanggal 24 Agustus 2026.",
+    adminName: "Admin ZADA Studio"
+  }
+];
 
 const DEFAULT_GALLERY_PHOTOS = [
   /* 🎓 WISUDA */

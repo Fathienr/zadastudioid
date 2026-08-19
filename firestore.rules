@@ -33,5 +33,11 @@ service cloud.firestore {
     match /admin_meta/{schoolId} {
       allow read, write: if request.auth != null;
     }
+
+    // Invoices and Receipts: Admin has full read/write, public can view specific receipt by invoiceId
+    match /invoices/{invoiceId} {
+      allow get: if true;
+      allow list, write: if request.auth != null;
+    }
   }
 }

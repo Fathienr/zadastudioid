@@ -51,33 +51,36 @@ async function refreshStats(schools) {
 async function renderSchoolTable() {
   tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:2rem;">Memuat data...</td></tr>`;
 
-  const withTimeout = (promise, ms = 8000) =>
-    Promise.race([
-      promise,
-      new Promise((_, reject) => setTimeout(() => reject(new Error("Waktu tunggu habis (server tidak merespons)")), ms)),
-    ]);
-
-  let schools;
+  let schools = [];
   try {
-    schools = (await withTimeout(ZadaData.getAllSchools())).sort((a, b) => a.school.localeCompare(b.school));
+    schools = (await ZadaData.getAllSchools()).sort((a, b) => a.school.localeCompare(b.school));
 
-    // Fetch protected schools' real editions in PARALLEL instead of one
-    // at a time — this was the main source of slow loading.
+    // Fetch protected schools' real editions in parallel with non-blocking error handling
     await Promise.all(
       schools
         .filter((s) => s.hasPassword)
         .map(async (s) => {
-          const { editions } = await ZadaData._loadPortalForAdmin(s.id);
-          s.editions = editions;
+          try {
+            const { editions } = await ZadaData._loadPortalForAdmin(s.id);
+            if (editions && editions.length) {
+              s.editions = editions;
+            }
+          } catch (e) {
+            console.warn("Info portal terproteksi:", s.id, e);
+          }
         })
     );
   } catch (err) {
-    console.error("Gagal memuat data dari Firestore:", err);
-    tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#f2a6a6;padding:2rem;">
-      Gagal memuat data: ${err.code || err.message}.<br/>
-      Cek apakah Firestore Rules sudah di-Publish, dan koneksi internet aktif.
-    </td></tr>`;
-    return;
+    console.warn("Gagal memuat langsung dari Firestore:", err);
+    try {
+      schools = (await ZadaData.getAllSchools()).sort((a, b) => a.school.localeCompare(b.school));
+    } catch (fallbackErr) {
+      tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#f2a6a6;padding:2rem;">
+        Gagal memuat data: ${err.code || err.message}.<br/>
+        Silakan muat ulang halaman atau periksa koneksi internet Anda.
+      </td></tr>`;
+      return;
+    }
   }
 
   await refreshStats(schools);

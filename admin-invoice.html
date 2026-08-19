@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pembuat Struk &amp; Invoice Resmi — ZADA STUDIO</title>
+<link rel="icon" type="image/png" href="zadastudio.png" />
+<link rel="apple-touch-icon" href="zadastudio.png" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" />
+</head>
+<body>
+
+<header class="admin-top no-print">
+  <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
+    <a href="index.html" class="brand">
+      <img src="zadastudio.png" alt="ZADA STUDIO Logo" class="navbar__brand-mark" />
+      <span>ZADA STUDIO<small>Portal Manajemen &amp; Kasir</small></span>
+    </a>
+    <div class="admin-user" style="display: flex; align-items: center; gap: 1rem;">
+      <span style="font-size: 0.88rem; color: var(--color-text-dim);">Masuk sebagai <strong style="color: #fff;">Admin ZADA</strong></span>
+      <a href="admin-dashboard.html" class="btn btn-outline btn-sm">Dashboard Utama</a>
+      <button class="btn btn-outline btn-sm" id="btn-logout">Keluar</button>
+    </div>
+  </div>
+</header>
+
+<main class="admin-main">
+  <div class="container">
+
+    <!-- Top Admin Tabs Navigation -->
+    <div class="no-print" style="display: flex; gap: 0.8rem; margin-bottom: 2rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 0.8rem; flex-wrap: wrap;">
+      <a href="admin-dashboard.html" class="btn btn-outline" style="gap: 0.5rem; text-decoration: none;">
+        🏫 Sekolah Mitra (Yearbook)
+      </a>
+      <a href="admin-dashboard.html#gallery" class="btn btn-outline" style="gap: 0.5rem; text-decoration: none;">
+        📸 Galeri Foto Studio
+      </a>
+      <a href="admin-invoice.html" class="btn btn-primary" style="gap: 0.5rem; text-decoration: none;">
+        🧾 Pembuat Struk &amp; Invoice Resmi
+      </a>
+    </div>
+
+    <!-- PAGE HEADER -->
+    <div class="admin-head no-print">
+      <div>
+        <span class="eyebrow">Digital Receipt &amp; Billing Generator</span>
+        <h1>Pembuat Struk &amp; Invoice Resmi</h1>
+        <p style="color: var(--color-text-dim); font-size: 0.9rem; margin-top: 0.3rem;">
+          Buat struk transaksi digital, cetak fisik (faktur/thermal), kirim invoice otomatis ke WhatsApp klien, dan pantau riwayat pembayaran.
+        </p>
+      </div>
+      <div style="display: flex; gap: 0.6rem;">
+        <button class="btn btn-outline" id="btn-reset-invoice">🔄 Buat Struk Baru</button>
+        <a href="#riwayat-transaksi" class="btn btn-outline">📊 Lihat Riwayat Struk</a>
+      </div>
+    </div>
+
+    <!-- MAIN GENERATOR 2-COLUMN LAYOUT -->
+    <div class="invoice-layout">
+
+      <!-- LEFT COLUMN: FORM GENERATOR -->
+      <div class="invoice-form-card no-print">
+        
+        <!-- Preset Dropdown Selector -->
+        <div style="margin-bottom: 1.5rem; background: rgba(37,99,235,0.06); border: 1px solid rgba(37,99,235,0.25); border-radius: var(--radius-md); padding: 1.1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <label for="inv-package-preset" style="font-size: 0.85rem; font-weight: 700; color: var(--accent-300); display: flex; align-items: center; gap: 0.4rem;">
+              Pilih Template Paket dan Harga Resmi
+            </label>
+            <span id="preset-applied-badge" style="display: none; font-size: 0.72rem; background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); padding: 0.15rem 0.5rem; border-radius: 4px;">
+              Paket Diterapkan
+            </span>
+          </div>
+          <select id="inv-package-preset" style="width: 100%; padding: 0.65rem 0.85rem; border-radius: 8px; border: 1px solid var(--accent-500); background: var(--color-bg); color: var(--color-text); font-size: 0.9rem; font-weight: 600; cursor: pointer;">
+            <option value="">Pilih Paket Layanan ZADA Studio</option>
+            
+            <optgroup label="FOTO WISUDA">
+              <option value="wisuda_premium">Wisuda Premium Pack Rp 599.000</option>
+              <option value="wisuda_platinum">Wisuda Platinum Exclusive Rp 750.000</option>
+              <option value="wisuda_standard">Wisuda Standard Pack Rp 450.000</option>
+            </optgroup>
+
+            <optgroup label="FOTO KELUARGA">
+              <option value="keluarga_bestseller">Foto Keluarga Best Seller s.d 15 Orang Rp 599.000</option>
+              <option value="keluarga_premium">Foto Keluarga Premium Pack s.d 30 Orang Rp 899.000</option>
+            </optgroup>
+
+            <optgroup label="PREWEDDING">
+              <option value="prewed_bestseller">Prewedding Best Seller 60 Menit Rp 699.000</option>
+              <option value="prewed_premium">Prewedding Premium Complete MUA dan Baju Adat Rp 1.700.000</option>
+            </optgroup>
+
+            <optgroup label="PAS FOTO CETAK">
+              <option value="pasfoto_3x4_9">Pas Foto Cetak 3x4 = 9 Lembar (Rp 75.000)</option>
+              <option value="pasfoto_4x6_4">Pas Foto Cetak 4x6 = 4 Lembar (Rp 75.000)</option>
+              <option value="pasfoto_mix_34_46">Pas Foto Cetak Mix: 3x4 (4 Lembar) + 4x6 (2 Lembar) (Rp 75.000)</option>
+              <option value="pasfoto_mix_23_34_46">Pas Foto Cetak Mix: 2x3 (4) + 3x4 (4) + 4x6 (2 Lembar) (Rp 75.000)</option>
+              <option value="pasfoto_mix_23_34">Pas Foto Cetak Mix: 2x3 (4) + 3x4 (4 Lembar) (Rp 75.000)</option>
+              <option value="pasfoto_2x3_12">Pas Foto Cetak 2x3 = 12 Lembar (Rp 75.000)</option>
+            </optgroup>
+
+            <optgroup label="PAS FOTO VISA NEGARA">
+              <option value="visa_default">Pas Foto Visa Standar 3,5 x 4,5 cm (Rp 75.000)</option>
+              <option value="visa_jepang">Pas Foto Visa Jepang 3,5 x 4,5 cm (Rp 75.000)</option>
+              <option value="visa_amerika">Pas Foto Visa Amerika US 5 x 5 cm (Rp 75.000)</option>
+              <option value="visa_china">Pas Foto Visa China 3,3 x 4,8 cm (Rp 75.000)</option>
+              <option value="visa_eropa">Pas Foto Visa Eropa Schengen 3,5 x 4,5 cm (Rp 75.000)</option>
+              <option value="visa_korea">Pas Foto Visa Korea 3,5 x 4,5 cm (Rp 75.000)</option>
+            </optgroup>
+
+            <optgroup label="FOTO PROFILE">
+              <option value="profile_korean">Foto Profile Korean Aesthetic Professional Rp 200.000</option>
+              <option value="profile_combo">Foto Profile Combo Professional dan Korean Look Rp 300.000</option>
+            </optgroup>
+
+            <optgroup label="FOTO PRODUK DAN PROFESI ANAK">
+              <option value="produk_commercial">Foto Produk Commercial Katalog Brand Rp 75.000 per produk</option>
+              <option value="profesi_anak">Foto Profesi Anak Kostum Lengkap 30 Profesi Rp 150.000</option>
+            </optgroup>
+
+            <optgroup label="SEWA SPACE STUDIO">
+              <option value="sewa_2spot_1h">Sewa Studio 2 Spot 60 Menit Rp 250.000</option>
+              <option value="sewa_2spot_3h">Sewa Studio 2 Spot 3 Jam Rp 500.000</option>
+              <option value="sewa_all_3h">Sewa Studio All Access 3 Jam Rp 600.000</option>
+              <option value="sewa_all_fullday">Sewa Studio All Access Full Day 8 Jam Rp 1.300.000</option>
+            </optgroup>
+
+            <optgroup label="PHOTO BOOTH UNLIMITED">
+              <option value="pb_classic_2h">Photo Booth Classic 2 Jam Unlimited Rp 1.800.000</option>
+              <option value="pb_classic_3h">Photo Booth Classic 3 Jam Unlimited Rp 2.400.000</option>
+              <option value="pb_highangle_2h">Photo Booth High Angle 2 Jam Unlimited Rp 2.000.000</option>
+              <option value="pb_highangle_3h">Photo Booth High Angle 3 Jam Unlimited Rp 2.700.000</option>
+              <option value="pb_premium_2h">Photo Booth Premium Studio Lighting 2 Jam Rp 2.100.000</option>
+              <option value="pb_premium_3h">Photo Booth Premium Studio Lighting 3 Jam Rp 2.900.000</option>
+              <option value="pb_mingle_2h">Photo Booth Mingle Roaming 2 Jam Rp 2.500.000</option>
+              <option value="pb_mingle_3h">Photo Booth Mingle Roaming 3 Jam Rp 3.500.000</option>
+            </optgroup>
+
+            <optgroup label="YEARBOOK BUKU TAHUNAN">
+              <option value="yearbook_hardcover">Yearbook Hardcover Premium 150 Eks Rp 26.250.000</option>
+              <option value="yearbook_softcover">Yearbook Softcover Standard 150 Eks Rp 20.250.000</option>
+              <option value="yearbook_digital">Yearbook Digital Flipbook dan Foto 100 Siswa Rp 7.500.000</option>
+            </optgroup>
+          </select>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 0.85rem; padding-top: 0.85rem; border-top: 1px dashed rgba(37,99,235,0.25);">
+            <div>
+              <label for="quick-pasfoto-select" style="display: block; font-size: 0.76rem; font-weight: 600; color: var(--accent-300); margin-bottom: 0.3rem;">
+                Pilihan Lembar Cetak Pas Foto:
+              </label>
+              <select id="quick-pasfoto-select" style="width: 100%; padding: 0.45rem 0.65rem; border-radius: 6px; border: 1px solid var(--glass-border); background: var(--color-bg); color: var(--color-text); font-size: 0.8rem; font-weight: 500;">
+                <option value="">Pilih Lembar Pas Foto</option>
+                <option value="pasfoto_3x4_9">3x4 = 9 lembar</option>
+                <option value="pasfoto_4x6_4">4x6 = 4 lembar</option>
+                <option value="pasfoto_mix_34_46">Mix 3x4 4 lembar dan 4x6 2 lembar</option>
+                <option value="pasfoto_mix_23_34_46">Mix 2x3 4 lembar, 3x4 4 lembar dan 4x6 2 lembar</option>
+                <option value="pasfoto_mix_23_34">Mix 2x3 4 lembar dan 3x4 4 lembar</option>
+                <option value="pasfoto_2x3_12">2x3 = 12 lembar</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="quick-visa-select" style="display: block; font-size: 0.76rem; font-weight: 600; color: var(--accent-300); margin-bottom: 0.3rem;">
+                Pas Foto Visa Negara (Default 3,5 x 4,5 cm):
+              </label>
+              <select id="quick-visa-select" style="width: 100%; padding: 0.45rem 0.65rem; border-radius: 6px; border: 1px solid var(--glass-border); background: var(--color-bg); color: var(--color-text); font-size: 0.8rem; font-weight: 500;">
+                <option value="">Pilih Negara Visa</option>
+                <option value="visa_default">Standar Default 3,5 x 4,5 cm</option>
+                <option value="visa_jepang">Jepang 3,5 x 4,5 cm</option>
+                <option value="visa_amerika">Amerika US 5 x 5 cm</option>
+                <option value="visa_china">China 3,3 x 4,8 cm</option>
+                <option value="visa_eropa">Eropa Schengen 3,5 x 4,5 cm</option>
+                <option value="visa_korea">Korea 3,5 x 4,5 cm</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--color-text-dim);">
+            Memilih paket akan otomatis mengisi kategori layanan, rincian item, harga satuan, dan catatan instruksi studio sesuai katalog resmi.
+          </div>
+        </div>
+
+        <form id="invoice-form" onsubmit="event.preventDefault();">
+          <input type="hidden" id="inv-id" />
+
+          <!-- Row 1: Nomor, Tanggal, Petugas -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 1.2rem;">
+            <div>
+              <label for="inv-number" style="font-size: 0.85rem; font-weight: 600; color: var(--color-text); display: block; margin-bottom: 0.35rem;">
+                No. Struk Invoice
+              </label>
+              <div style="display: flex; gap: 0.4rem;">
+                <input type="text" id="inv-number" required style="flex: 1; padding: 0.55rem 0.75rem; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--color-bg); color: var(--color-text); font-family: 'IBM Plex Mono', monospace; font-size: 0.88rem;" />
+                <button type="button" id="btn-gen-number" class="btn btn-sm btn-outline" title="Buat Nomor Acak">Acak</button>
+              </div>
+            </div>
+
+            <div>
+              <label for="inv-date" style="font-size: 0.85rem; font-weight: 600; color: var(--color-text); display: block; margin-bottom: 0.35rem;">
+                Tanggal Transaksi
+              </label>
+              <input type="date" id="inv-date" required style="width: 100%; padding: 0.55rem 0.75rem; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--color-bg); color: var(--color-text); font-size: 0.88rem;" />
+            </div>
+
+            <div>
+              <label for="inv-served-by" style="font-size: 0.85rem; font-weight: 600; color: var(--color-text); display: block; margin-bottom: 0.35rem;">
+                Dilayani oleh (Petugas)
+              </label>
+              <select id="inv-served-by" style="width: 100%; padding: 0.55rem 0.75rem; border-radius: 8px; border: 1px solid var(--accent-500); background: var(--color-bg); color: var(--color-text); font-size: 0.88rem; font-weight: 600;">
+                <option value="Fatih">Fatih</option>
+                <option value="Alta">Alta</option>
+                <option value="Zidan">Zidan</option>
+                <option value="Dehan">Dehan</option>
+                <option value="Sela">Sela</option>
+                <option value="Ica">Ica</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Row 2: Data Klien -->
+          <div style="margin-bottom: 1.2rem; padding: 1.1rem; background: var(--color-bg); border-radius: 8px; border: 1px solid var(--glass-border);">
+            <h4 style="font-size: 0.92rem; margin: 0 0 0.8rem 0; color: var(--accent-300);">Informasi Klien dan Pemesan</h4>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+              <div>
+                <label for="inv-client-name" style="font-size: 0.82rem; color: var(--color-text-dim); display: block; margin-bottom: 0.25rem;">
+                  Nama Lengkap / Instansi <span style="color:#f87171;">*</span>
+                </label>
+                <input type="text" id="inv-client-name" placeholder="mis. Rizky Ramadhan / SMA 1 Jakarta" required style="width: 100%; padding: 0.5rem 0.7rem; border-radius: 6px; border: 1px solid var(--glass-border); background: var(--color-surface); color: var(--color-text); font-size: 0.88rem;" />
+              </div>
+
+              <div>
+                <label for="inv-client-phone" style="font-size: 0.82rem; color: var(--color-text-dim); display: block; margin-bottom: 0.25rem;">
+                  No. WhatsApp Klien <span style="color:#f87171;">*</span>
+                </label>
+                <input type="tel" id="inv-client-phone" placeholder="mis. 081234567890" required style="width: 100%; padding: 0.5rem 0.7rem; border-radius: 6px; border: 1px solid var(--glass-border); background: var(--color-surface); color: var(--color-text); font-size: 0.88rem;" />
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
+              <div>
+                <label for="inv-client-email" style="font-size: 0.82rem; color: var(--color-text-dim); display: block; margin-bottom: 0.25rem;">
+                  Email (Opsional)
+                </label>
+                <input type="email" id="inv-client-email" placeholder="client@email.com" style="width: 100%; padding: 0.5rem 0.7rem; border-radius: 6px; border: 1px solid var(--glass-border); background: var(--color-surface); color: var(--color-text); font-size: 0.88rem;" />
+              </div>
+
+              <div>
+                <label for="inv-client-address" style="font-size: 0.82rem; color: var(--color-text-dim); display: block; margin-bottom: 0.25rem;">
+                  Alamat / Lokasi Sesi
+                </label>
+                <input type="text" id="inv-client-address" placeholder="mis. Bintaro / Studio A ZADA" style="width: 100%; padding: 0.5rem 0.7rem; border-radius: 6px; border: 1px solid var(--glass-border); background: var(--color-surface); color: var(--color-text); font-size: 0.88rem;" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 3: Layanan & Judul Paket -->
+          <div style="display: grid; grid-template-columns: 140px 1fr; gap: 0.8rem; margin-bottom: 1.2rem;">
+            <div>
+              <label for="inv-service-type" style="font-size: 0.85rem; font-weight: 600; color: var(--color-text); display: block; margin-bottom: 0.35rem;">
+                Kategori
+              </label>
+              <select id="inv-service-type" style="width: 100%; padding: 0.55rem 0.6rem; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--color-bg); color: var(--color-text); font-size: 0.88rem;">
+                <option value="studio">Foto Studio</option>
+                <option value="photobooth">Photo Booth</option>
+                <option value="yearbook">Yearbook</option>
+                <option value="custom">Custom Order</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="inv-service-title" style="font-size: 0.85rem; font-weight: 600; color: var(--color-text); display: block; margin-bottom: 0.35rem;">
+                Nama Paket / Layanan Utama
+              </label>
+              <input type="text" id="inv-service-title" placeholder="mis. Paket Wisuda Platinum &amp; Keluarga" required style="width: 100%; padding: 0.55rem 0.75rem; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--color-bg); color: var(--color-text); font-size: 0.88rem;" />
+            </div>
+          </div>
+
+          <!-- Row 4: Daftar Rincian Item (Dynamic Rows) -->
+          <div style="margin-bottom: 1.2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <label style="font-size: 0.85rem; font-weight: 600; color: var(--color-text);">
+                Rincian Item Layanan
+              </label>
+              <button type="button" id="btn-add-item" class="btn btn-sm btn-outline" style="font-size: 0.78rem; padding: 0.25rem 0.6rem;">
+                + Tambah Item
+              </button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 70px 120px 36px; gap: 0.5rem; font-size: 0.75rem; color: var(--color-text-dim); text-transform: uppercase; margin-bottom: 0.3rem; padding: 0 0.2rem;">
+              <span>Deskripsi Item</span>
+              <span style="text-align: center;">Qty</span>
+              <span style="text-align: right;">Harga (Rp)</span>
+              <span></span>
+            </div>
+
+            <div id="items-container">
+              <!-- Item rows will be rendered here via JS -->
+            </div>
+          </div>
+
+          <!-- Row 5: Keuangan (Diskon, Pembayaran, DP, Status) -->
+          <div style="padding: 1.1rem; background: var(--color-bg); border-radius: 8px; border: 1px solid var(--glass-border); margin-bottom: 1.2rem;">
+            <h4 style="font-size: 0.92rem; margin: 0 0 0.8rem 0; color: var(--accent-300);">Rincian Pembayaran dan Status</h4>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+              <div>
+                <label for="inv-discount" style="font-size: 0.82rem; color: var(--color-text-dim); display: block; margin-bottom: 0.25rem;">
+                  Potongan Diskon (Rp)
+                </label>
+                <input type="number" id="inv-discount" value="0" min="0" step="5000" style="width: 100%; padding: 0.5rem 0.7rem; border-radius: 6px; border: 1px solid var(--glass-border); background: var(--color-surface); color: var(--color-text); font-size: 0.88rem;" />
+              </div>
+
+              <div>
+                <label for="inv-payment-method" style="font-size: 0.82rem; color: var(--color-text-dim); display: block; margin-bottom: 0.25rem;">
+                  Metode Pembayaran
+                </label>
+                <select id="inv-payment-method" style="width: 100%; padding: 0.5rem 0.6rem; border-radius: 6px; border: 1px solid var(--glass-border); background: var(--color-surface); color: var(--color-text); font-size: 0.88rem;">
+                  <option value="Transfer BCA">Transfer Bank BCA</option>
+                  <option value="Transfer Mandiri">Transfer Bank Mandiri</option>
+                  <option value="QRIS ZADA Studio">QRIS ZADA Studio</option>
+                  <option value="Tunai Cash">Tunai Cash di Studio</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+              <div>
+                <label for="inv-status" style="font-size: 0.82rem; color: var(--color-text-dim); display: block; margin-bottom: 0.25rem;">
+                  Status Pembayaran
+                </label>
+                <select id="inv-status" style="width: 100%; padding: 0.5rem 0.6rem; border-radius: 6px; border: 1px solid var(--glass-border); background: var(--color-surface); color: var(--color-text); font-size: 0.88rem; font-weight: 600;">
+                  <option value="lunas">LUNAS</option>
+                  <option value="dp">DP Diterima</option>
+                  <option value="pending">Belum Lunas</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="inv-dp" style="font-size: 0.82rem; color: var(--color-text-dim); display: block; margin-bottom: 0.25rem;">
+                  Jumlah DP yang Dibayarkan (Rp)
+                </label>
+                <input type="number" id="inv-dp" value="0" min="0" step="5000" style="width: 100%; padding: 0.5rem 0.7rem; border-radius: 6px; border: 1px solid var(--glass-border); background: var(--color-surface); color: var(--color-text); font-size: 0.88rem;" />
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
+              <div>
+                <label for="inv-due-date" style="font-size: 0.82rem; color: var(--color-text-dim); display: block; margin-bottom: 0.25rem;">
+                  Batas Waktu Jatuh Tempo
+                </label>
+                <input type="date" id="inv-due-date" style="width: 100%; padding: 0.5rem 0.7rem; border-radius: 6px; border: 1px solid var(--glass-border); background: var(--color-surface); color: var(--color-text); font-size: 0.88rem;" />
+              </div>
+
+              <div style="background: rgba(37,99,235,0.08); border-radius: 6px; padding: 0.5rem 0.8rem; display: flex; flex-direction: column; justify-content: center;">
+                <span style="font-size: 0.75rem; color: var(--color-text-dim);">Sisa Tagihan:</span>
+                <strong id="calc-remaining" style="font-size: 1.05rem; color: #f87171;">Rp 0</strong>
+              </div>
+            </div>
+
+            <!-- Quick Calculation Summary -->
+            <div style="display: flex; justify-content: space-between; border-top: 1px dashed var(--glass-border); margin-top: 0.8rem; padding-top: 0.8rem; font-size: 0.85rem;">
+              <span>Subtotal: <strong id="calc-subtotal" style="color: var(--color-text);">Rp 0</strong></span>
+              <span>Total Tagihan: <strong id="calc-total" style="color: var(--accent-300); font-size: 1rem;">Rp 0</strong></span>
+            </div>
+          </div>
+
+          <!-- Row 6: Catatan & Instruksi Sesi -->
+          <div style="margin-bottom: 1.5rem;">
+            <label for="inv-notes" style="font-size: 0.85rem; font-weight: 600; color: var(--color-text); display: block; margin-bottom: 0.35rem;">
+              Catatan dan Ketentuan Sesi
+            </label>
+            <textarea id="inv-notes" rows="3" style="width: 100%; padding: 0.6rem 0.8rem; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--color-bg); color: var(--color-text); font-size: 0.85rem; resize: vertical;"></textarea>
+          </div>
+
+          <!-- Action Buttons Bar -->
+          <div class="invoice-actions-bar" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
+            <button type="button" class="btn btn-primary" id="btn-save-invoice" style="grid-column: span 2; padding: 0.75rem; justify-content: center; font-size: 0.95rem;">
+              Simpan Struk ke Database
+            </button>
+            <button type="button" class="btn btn-outline" id="btn-print-invoice" style="justify-content: center;">
+              Cetak Struk
+            </button>
+            <button type="button" class="btn btn-outline" id="btn-wa-invoice" style="justify-content: center; color: #4ade80; border-color: rgba(74,222,128,0.4);">
+              Kirim via WhatsApp
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- RIGHT COLUMN: LIVE INTERACTIVE RECEIPT PREVIEW -->
+      <div class="invoice-preview-container">
+        
+        <!-- Preview Control Bar -->
+        <div class="no-print" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+          <span style="font-size: 0.85rem; font-weight: 600; color: var(--color-text);">
+            Pratinjau Struk Transaksi
+          </span>
+          <button type="button" id="btn-toggle-thermal" class="btn btn-sm btn-outline" style="font-size: 0.78rem;">
+            Mode Struk Kasir Thermal
+          </button>
+        </div>
+
+        <!-- Official Receipt Paper (Print Target) -->
+        <div class="receipt-paper" id="receipt-paper">
+          
+          <!-- Header -->
+          <div class="receipt-header">
+            <div class="receipt-brand">
+              <img src="zadastudio.png" alt="ZADA Logo" />
+              <div>
+                <div class="receipt-brand-title">
+                  ZADA STUDIO
+                  <small>Creative Visual Solution</small>
+                </div>
+                <div style="font-size: 0.72rem; color: #64748b; margin-top: 2px;">
+                  Jl. Ceger Raya No.3, Pondok Aren, Tangerang Selatan<br />
+                  WhatsApp: 0812-9876-5432 | Web: zada.id
+                </div>
+              </div>
+            </div>
+
+            <div class="receipt-meta">
+              <div class="receipt-meta-title">BUKTI PEMBAYARAN</div>
+              <div class="receipt-meta-num" id="prev-inv-number">INV/ZD/2026/08/001</div>
+              <div id="prev-status-stamp" class="receipt-badge-stamp stamp-lunas">
+                LUNAS
+              </div>
+            </div>
+          </div>
+
+          <!-- Client & Date Info Box -->
+          <div class="receipt-client-box">
+            <div>
+              <div style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 600;">Diberikan Kepada:</div>
+              <strong id="prev-client-name" style="font-size: 0.95rem; color: #0f172a; display: block;">Nama Klien</strong>
+              <div id="prev-client-phone" style="color: #475569;">081234567890</div>
+              <div id="prev-client-address" style="color: #64748b; font-size: 0.78rem;">Bintaro Jaya, Tangerang Selatan</div>
+            </div>
+            
+            <div style="text-align: right;">
+              <div style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 600;">Detail Transaksi:</div>
+              <div style="font-size: 0.82rem; color: #475569;">Tanggal: <strong id="prev-inv-date" style="color:#0f172a;">19 Agustus 2026</strong></div>
+              <div style="font-size: 0.82rem; color: #475569;">Jatuh Tempo: <span id="prev-inv-due-date">20 Agustus 2026</span></div>
+              <div style="font-size: 0.82rem; color: #475569;">Dilayani oleh (Petugas): <strong id="prev-served-by-meta" style="color:#0f172a;">Fatih</strong></div>
+              <div style="font-size: 0.82rem; color: #2563eb; font-weight: 600; margin-top: 4px;" id="prev-service-title">Paket Foto Studio</div>
+            </div>
+          </div>
+
+          <!-- Items Table -->
+          <table class="receipt-table">
+            <thead>
+              <tr>
+                <th>Deskripsi Layanan</th>
+                <th style="text-align: center; width: 45px;">Qty</th>
+                <th style="text-align: right; width: 95px;">Harga</th>
+                <th style="text-align: right; width: 105px;">Jumlah</th>
+              </tr>
+            </thead>
+            <tbody id="prev-items-body">
+              <tr>
+                <td><strong>Sesi Foto Studio Reguler</strong></td>
+                <td style="text-align: center;">1</td>
+                <td style="text-align: right;">Rp 350.000</td>
+                <td style="text-align: right; font-weight: 600;">Rp 350.000</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Financial Breakdown -->
+          <div class="receipt-totals">
+            <div class="receipt-total-row">
+              <span>Subtotal:</span>
+              <span id="prev-subtotal">Rp 350.000</span>
+            </div>
+            <div class="receipt-total-row" id="prev-discount-row" style="display: none; color: #16a34a;">
+              <span>Diskon:</span>
+              <span id="prev-discount">- Rp 0</span>
+            </div>
+            <div class="receipt-total-row grand">
+              <span>Total Tagihan:</span>
+              <span id="prev-total">Rp 350.000</span>
+            </div>
+            <div class="receipt-total-row dp">
+              <span>Uang Muka (DP):</span>
+              <span id="prev-dp">Rp 350.000</span>
+            </div>
+            <div class="receipt-total-row remaining">
+              <span>Sisa Pembayaran:</span>
+              <span id="prev-remaining">Rp 0</span>
+            </div>
+          </div>
+
+          <!-- Payment Info Box -->
+          <div style="background: #f1f5f9; border-radius: 6px; padding: 0.75rem 0.9rem; font-size: 0.78rem; color: #334155; margin-bottom: 1rem;">
+            <strong>Pembayaran Resmi ZADA Studio:</strong><br />
+            Metode: <span id="prev-payment-method" style="font-weight: 600; color: #0f172a;">Transfer BCA</span> &bull; 
+            BCA: <strong>123-456-7890</strong> a.n. ZADA STUDIO &bull; 
+            Mandiri: <strong>987-654-3210</strong>
+          </div>
+
+          <!-- Notes & Terms -->
+          <div class="receipt-notes-box">
+            <strong>Catatan dan Ketentuan:</strong><br />
+            <span id="prev-notes">Harap hadir 15 menit sebelum jadwal sesi foto. File softcopy dikirimkan via Google Drive dalam 1-2 hari kerja.</span>
+          </div>
+
+          <!-- Signature & Stamp Footer -->
+          <div class="receipt-footer-sign">
+            <div>
+              <div style="font-size: 0.72rem; color: #64748b;">
+                Struk ini merupakan bukti transaksi sah dan resmi dari ZADA Studio.
+              </div>
+            </div>
+
+            <div class="receipt-signature-box">
+              <div style="font-size: 0.72rem; color: #64748b; margin-bottom: 2px;">Dilayani oleh (Petugas)</div>
+              <div class="receipt-signature-line"></div>
+              <strong id="prev-served-by" style="color: #0f172a; font-size: 0.85rem;">Fatih</strong>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- SECTION 2: RIWAYAT TRANSAKSI & STRUK -->
+    <div id="riwayat-transaksi" class="history-section no-print" style="margin-top: 4rem; border-top: 1px solid var(--glass-border); padding-top: 2.5rem;">
+      <div class="admin-head">
+        <div>
+          <span class="eyebrow">Database &amp; Transaksi</span>
+          <h2>Riwayat Semua Struk &amp; Invoice</h2>
+        </div>
+      </div>
+
+      <!-- Stat Cards -->
+      <div class="stat-cards" style="margin-bottom: 1.8rem;">
+        <div class="stat-card"><span>Total Struk Dibuat</span><strong id="stat-inv-total">0</strong></div>
+        <div class="stat-card"><span>Total Omzet Tercatat</span><strong id="stat-inv-revenue">Rp 0</strong></div>
+        <div class="stat-card"><span>Total DP Diterima</span><strong id="stat-inv-dp">Rp 0</strong></div>
+        <div class="stat-card"><span>Sisa Piutang / Tagihan</span><strong id="stat-inv-remaining" style="color: #f87171;">Rp 0</strong></div>
+      </div>
+
+      <!-- Filter and Search Bar -->
+      <div style="display: flex; gap: 0.8rem; margin-bottom: 1.2rem; flex-wrap: wrap;">
+        <input type="text" id="inv-search" placeholder="🔍 Cari nama klien, no invoice, atau nomor WA..." style="flex: 1; min-width: 240px; padding: 0.55rem 0.85rem; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--color-surface); color: var(--color-text); font-size: 0.88rem;" />
+        
+        <select id="inv-filter-service" style="padding: 0.55rem 0.8rem; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--color-surface); color: var(--color-text); font-size: 0.88rem;">
+          <option value="all">Semua Layanan</option>
+          <option value="studio">Foto Studio</option>
+          <option value="photobooth">Photo Booth</option>
+          <option value="yearbook">Yearbook</option>
+        </select>
+
+        <select id="inv-filter-status" style="padding: 0.55rem 0.8rem; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--color-surface); color: var(--color-text); font-size: 0.88rem;">
+          <option value="all">Semua Status</option>
+          <option value="lunas">Lunas</option>
+          <option value="dp">DP Diterima</option>
+          <option value="pending">Belum Lunas</option>
+        </select>
+      </div>
+
+      <!-- Table Shell -->
+      <div class="table-shell">
+        <table>
+          <thead>
+            <tr>
+              <th>No. Invoice &amp; Tanggal</th>
+              <th>Klien &amp; Kontak</th>
+              <th>Layanan</th>
+              <th>Total Biaya</th>
+              <th>Sisa Tagihan</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="invoice-history-body">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script defer src="js/firebase-init.js"></script>
+<script defer src="js/data.js"></script>
+<script defer src="js/zada-common.js"></script>
+<script defer src="js/admin-invoice.js"></script>
+</body>
+</html>
