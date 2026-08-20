@@ -709,7 +709,6 @@ const DEFAULT_INVOICES = [
     invoiceNumber: "INV/ZD/2026/08/001",
     date: "2026-08-19",
     createdAt: "2026-08-19T08:30:00Z",
-    dueDate: "2026-08-20",
     clientName: "Naufal Hadi & Keluarga",
     clientPhone: "081298765432",
     clientEmail: "naufal.hadi@gmail.com",
@@ -726,7 +725,7 @@ const DEFAULT_INVOICES = [
     totalAmount: 1000000,
     downPayment: 1000000,
     remainingBalance: 0,
-    paymentMethod: "Transfer BCA",
+    paymentMethod: "TRANSFER BCA",
     paymentStatus: "lunas",
     notes: "Jadwal sesi foto: Sabtu, 22 Agustus 2026, Pukul 13:30 - 15:30 WIB di Studio A ZADA. Harap hadir 15 menit sebelum sesi.",
     adminName: "Admin ZADA Studio"
@@ -736,7 +735,6 @@ const DEFAULT_INVOICES = [
     invoiceNumber: "INV/ZD/2026/08/002",
     date: "2026-08-18",
     createdAt: "2026-08-18T14:15:00Z",
-    dueDate: "2026-08-25",
     clientName: "PT Sinergi Media Kreasi (Wedding Event)",
     clientPhone: "085711223344",
     clientEmail: "event@sinergimedia.co.id",
@@ -752,7 +750,7 @@ const DEFAULT_INVOICES = [
     totalAmount: 3500000,
     downPayment: 1500000,
     remainingBalance: 2000000,
-    paymentMethod: "Transfer Mandiri",
+    paymentMethod: "QRIS EDC MANDIRI",
     paymentStatus: "dp",
     notes: "DP 1.500.000 telah diterima. Pelunasan sisa 2.000.000 dibayarkan H-1 acara tanggal 24 Agustus 2026.",
     adminName: "Admin ZADA Studio"
