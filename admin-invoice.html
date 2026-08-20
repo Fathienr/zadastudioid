@@ -207,7 +207,7 @@
 
             <div>
               <label for="inv-served-by" style="font-size: 0.85rem; font-weight: 600; color: var(--color-text); display: block; margin-bottom: 0.35rem;">
-                Dilayani oleh (Petugas)
+                Dilayani Oleh
               </label>
               <select id="inv-served-by" style="width: 100%; padding: 0.55rem 0.75rem; border-radius: 8px; border: 1px solid var(--accent-500); background: var(--color-bg); color: var(--color-text); font-size: 0.88rem; font-weight: 600;">
                 <option value="Fatih">Fatih</option>
@@ -229,7 +229,7 @@
                 <label for="inv-client-name" style="font-size: 0.82rem; color: var(--color-text-dim); display: block; margin-bottom: 0.25rem;">
                   Nama Lengkap / Instansi <span style="color:#f87171;">*</span>
                 </label>
-                <input type="text" id="inv-client-name" placeholder="mis. Rizky Ramadhan / SMA 1 Jakarta" required style="width: 100%; padding: 0.5rem 0.7rem; border-radius: 6px; border: 1px solid var(--glass-border); background: var(--color-surface); color: var(--color-text); font-size: 0.88rem;" />
+                <input type="text" id="inv-client-name" placeholder="mis. Rizky Ramadhan / SMA 1 Jakarta" required autocapitalize="words" style="width: 100%; padding: 0.5rem 0.7rem; border-radius: 6px; border: 1px solid var(--glass-border); background: var(--color-surface); color: var(--color-text); font-size: 0.88rem; text-transform: capitalize;" />
               </div>
 
               <div>
@@ -318,11 +318,10 @@
                 <label for="inv-payment-method" style="font-size: 0.82rem; color: var(--color-text-dim); display: block; margin-bottom: 0.25rem;">
                   Metode Pembayaran
                 </label>
-                <select id="inv-payment-method" style="width: 100%; padding: 0.5rem 0.6rem; border-radius: 6px; border: 1px solid var(--glass-border); background: var(--color-surface); color: var(--color-text); font-size: 0.88rem;">
-                  <option value="Transfer BCA">Transfer Bank BCA</option>
-                  <option value="Transfer Mandiri">Transfer Bank Mandiri</option>
-                  <option value="QRIS ZADA Studio">QRIS ZADA Studio</option>
-                  <option value="Tunai Cash">Tunai Cash di Studio</option>
+                <select id="inv-payment-method" style="width: 100%; padding: 0.55rem 2.2rem 0.55rem 0.75rem; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--color-surface); color: var(--color-text); font-size: 0.88rem; font-weight: 600;">
+                  <option value="QRIS EDC MANDIRI">QRIS EDC MANDIRI</option>
+                  <option value="TRANSFER BCA">TRANSFER BCA</option>
+                  <option value="CASH">CASH</option>
                 </select>
               </div>
             </div>
@@ -347,18 +346,9 @@
               </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
-              <div>
-                <label for="inv-due-date" style="font-size: 0.82rem; color: var(--color-text-dim); display: block; margin-bottom: 0.25rem;">
-                  Batas Waktu Jatuh Tempo
-                </label>
-                <input type="date" id="inv-due-date" style="width: 100%; padding: 0.5rem 0.7rem; border-radius: 6px; border: 1px solid var(--glass-border); background: var(--color-surface); color: var(--color-text); font-size: 0.88rem;" />
-              </div>
-
-              <div style="background: rgba(37,99,235,0.08); border-radius: 6px; padding: 0.5rem 0.8rem; display: flex; flex-direction: column; justify-content: center;">
-                <span style="font-size: 0.75rem; color: var(--color-text-dim);">Sisa Tagihan:</span>
-                <strong id="calc-remaining" style="font-size: 1.05rem; color: #f87171;">Rp 0</strong>
-              </div>
+            <div style="background: rgba(37,99,235,0.08); border-radius: 6px; padding: 0.65rem 0.9rem; display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 0.82rem; color: var(--color-text-dim);">Sisa Tagihan / Pelunasan:</span>
+              <strong id="calc-remaining" style="font-size: 1.1rem; color: #f87171;">Rp 0</strong>
             </div>
 
             <!-- Quick Calculation Summary -->
@@ -373,7 +363,7 @@
             <label for="inv-notes" style="font-size: 0.85rem; font-weight: 600; color: var(--color-text); display: block; margin-bottom: 0.35rem;">
               Catatan dan Ketentuan Sesi
             </label>
-            <textarea id="inv-notes" rows="3" style="width: 100%; padding: 0.6rem 0.8rem; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--color-bg); color: var(--color-text); font-size: 0.85rem; resize: vertical;"></textarea>
+            <textarea id="inv-notes" rows="3" placeholder="Tuliskan catatan khusus atau ketentuan sesi di sini jika ada (opsional)..." style="width: 100%; padding: 0.6rem 0.8rem; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--color-bg); color: var(--color-text); font-size: 0.85rem; resize: vertical;"></textarea>
           </div>
 
           <!-- Action Buttons Bar -->
@@ -384,8 +374,8 @@
             <button type="button" class="btn btn-outline" id="btn-print-invoice" style="justify-content: center;">
               Cetak Struk
             </button>
-            <button type="button" class="btn btn-outline" id="btn-wa-invoice" style="justify-content: center; color: #4ade80; border-color: rgba(74,222,128,0.4);">
-              Kirim via WhatsApp
+            <button type="button" class="btn btn-outline" id="btn-wa-invoice" style="justify-content: center; color: #4ade80; border-color: rgba(74,222,128,0.4);" title="Kirim rincian struk langsung ke nomor WhatsApp customer">
+              Kirim ke WhatsApp Customer
             </button>
           </div>
 
@@ -396,13 +386,18 @@
       <div class="invoice-preview-container">
         
         <!-- Preview Control Bar -->
-        <div class="no-print" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+        <div class="no-print" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; flex-wrap: wrap; gap: 0.5rem;">
           <span style="font-size: 0.85rem; font-weight: 600; color: var(--color-text);">
             Pratinjau Struk Transaksi
           </span>
-          <button type="button" id="btn-toggle-thermal" class="btn btn-sm btn-outline" style="font-size: 0.78rem;">
-            Mode Struk Kasir Thermal
-          </button>
+          <div style="display: flex; gap: 0.4rem;">
+            <button type="button" id="btn-download-jpg" class="btn btn-sm btn-outline" style="font-size: 0.78rem; color: var(--accent-300);" title="Unduh gambar JPG resolusi tinggi">
+              📷 Unduh JPG
+            </button>
+            <button type="button" id="btn-toggle-thermal" class="btn btn-sm btn-outline" style="font-size: 0.78rem;">
+              Mode Kasir Thermal
+            </button>
+          </div>
         </div>
 
         <!-- Official Receipt Paper (Print Target) -->
@@ -445,8 +440,7 @@
             <div style="text-align: right;">
               <div style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 600;">Detail Transaksi:</div>
               <div style="font-size: 0.82rem; color: #475569;">Tanggal: <strong id="prev-inv-date" style="color:#0f172a;">19 Agustus 2026</strong></div>
-              <div style="font-size: 0.82rem; color: #475569;">Jatuh Tempo: <span id="prev-inv-due-date">20 Agustus 2026</span></div>
-              <div style="font-size: 0.82rem; color: #475569;">Dilayani oleh (Petugas): <strong id="prev-served-by-meta" style="color:#0f172a;">Fatih</strong></div>
+              <div style="font-size: 0.82rem; color: #475569;">Dilayani Oleh: <strong id="prev-served-by-meta" style="color:#0f172a;">Fatih</strong></div>
               <div style="font-size: 0.82rem; color: #2563eb; font-weight: 600; margin-top: 4px;" id="prev-service-title">Paket Foto Studio</div>
             </div>
           </div>
@@ -518,7 +512,7 @@
             </div>
 
             <div class="receipt-signature-box">
-              <div style="font-size: 0.72rem; color: #64748b; margin-bottom: 2px;">Dilayani oleh (Petugas)</div>
+              <div style="font-size: 0.72rem; color: #64748b; margin-bottom: 2px;">Dilayani Oleh</div>
               <div class="receipt-signature-line"></div>
               <strong id="prev-served-by" style="color: #0f172a; font-size: 0.85rem;">Fatih</strong>
             </div>
@@ -593,6 +587,7 @@
 
 <div class="toast" id="toast"></div>
 
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
