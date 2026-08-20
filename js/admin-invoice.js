@@ -31,12 +31,63 @@ function formatRupiah(number) {
   }).format(number || 0);
 }
 
-function generateInvoiceNumber() {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
+function toCapitalWords(str) {
+  if (!str) return "";
+  return str
+    .toLowerCase()
+    .split(" ")
+    .map((word) => (word ? word.charAt(0).toUpperCase() + word.slice(1) : ""))
+    .join(" ");
+}
+
+async function generateSequentialInvoiceNumber(dateString = null) {
+  const targetDate = dateString || getTodayDateString();
+  const d = new Date(targetDate);
+  const year = isNaN(d.getFullYear()) ? new Date().getFullYear() : d.getFullYear();
+  const month = String(isNaN(d.getMonth()) ? new Date().getMonth() + 1 : d.getMonth() + 1).padStart(2, "0");
+  const day = String(isNaN(d.getDate()) ? new Date().getDate() : d.getDate()).padStart(2, "0");
+
+  let nextSeq = 1;
+  try {
+    const allInvoices = await ZadaData.getAllInvoices();
+    const datePrefix = `INV/ZD/${year}/${month}/${day}/`;
+    const sameDayInvoices = allInvoices.filter((inv) => {
+      if (inv.date === targetDate) return true;
+      if (inv.invoiceNumber && inv.invoiceNumber.startsWith(datePrefix)) return true;
+      return false;
+    });
+
+    if (sameDayInvoices.length > 0) {
+      let maxSeq = 0;
+      sameDayInvoices.forEach((inv) => {
+        const match = (inv.invoiceNumber || "").match(/(\d{3,4})$/);
+        if (match) {
+          const num = parseInt(match[1], 10);
+          if (num > maxSeq) maxSeq = num;
+        }
+      });
+      nextSeq = Math.max(sameDayInvoices.length + 1, maxSeq + 1);
+    }
+  } catch (err) {
+    console.warn("Could not determine daily invoice sequence:", err);
+  }
+
+  const seqStr = String(nextSeq).padStart(3, "0");
+  return `INV/ZD/${year}/${month}/${day}/${seqStr}`;
+}
+
+function generateRandomInvoiceNumber(dateString = null) {
+  const targetDate = dateString || getTodayDateString();
+  const d = new Date(targetDate);
+  const year = isNaN(d.getFullYear()) ? new Date().getFullYear() : d.getFullYear();
+  const month = String(isNaN(d.getMonth()) ? new Date().getMonth() + 1 : d.getMonth() + 1).padStart(2, "0");
+  const day = String(isNaN(d.getDate()) ? new Date().getDate() : d.getDate()).padStart(2, "0");
   const random = Math.floor(100 + Math.random() * 900);
-  return `INV/ZD/${year}/${month}/${random}`;
+  return `INV/ZD/${year}/${month}/${day}/${random}`;
+}
+
+function generateInvoiceNumber() {
+  return generateRandomInvoiceNumber();
 }
 
 function getTodayDateString() {
@@ -65,17 +116,21 @@ function formatDisplayDate(dateString) {
 /* ==========================================================================
    INITIALIZATION & PRESETS
    ========================================================================== */
-function initInvoicePage() {
-  resetInvoiceForm();
+async function initInvoicePage() {
+  await resetInvoiceForm();
   renderInvoiceHistory();
   setupEventListeners();
 }
 
-function resetInvoiceForm() {
+async function resetInvoiceForm() {
+  const today = getTodayDateString();
   document.getElementById("inv-id").value = "";
-  document.getElementById("inv-number").value = generateInvoiceNumber();
-  document.getElementById("inv-date").value = getTodayDateString();
-  document.getElementById("inv-due-date").value = getTodayDateString();
+  document.getElementById("inv-date").value = today;
+  
+  // Sequential invoice numbering per day starting with 001
+  const initialInvNumber = await generateSequentialInvoiceNumber(today);
+  document.getElementById("inv-number").value = initialInvNumber;
+
   if (document.getElementById("inv-served-by")) {
     document.getElementById("inv-served-by").value = "Fatih";
   }
@@ -87,9 +142,10 @@ function resetInvoiceForm() {
   document.getElementById("inv-service-title").value = "Paket Foto Studio";
   document.getElementById("inv-discount").value = "0";
   document.getElementById("inv-dp").value = "0";
-  document.getElementById("inv-payment-method").value = "Transfer BCA";
+  document.getElementById("inv-payment-method").value = "QRIS EDC MANDIRI";
   document.getElementById("inv-status").value = "lunas";
-  document.getElementById("inv-notes").value = "Harap hadir 15 menit sebelum jadwal sesi foto. File softcopy dikirimkan via Google Drive dalam 1-2 hari kerja.";
+  // Default notes is empty so cashier can input
+  document.getElementById("inv-notes").value = "";
   const presetSelect = document.getElementById("inv-package-preset");
   if (presetSelect) presetSelect.value = "";
   const quickPasfoto = document.getElementById("quick-pasfoto-select");
@@ -600,7 +656,6 @@ function addNewItemRow() {
 function calculateAndRenderPreview() {
   const invNumber = document.getElementById("inv-number").value || "INV/ZD/2026/000";
   const dateVal = document.getElementById("inv-date").value;
-  const dueDateVal = document.getElementById("inv-due-date").value;
   const clientName = document.getElementById("inv-client-name").value || "Nama Klien";
   const clientPhone = document.getElementById("inv-client-phone").value || "—";
   const clientEmail = document.getElementById("inv-client-email").value || "";
@@ -660,7 +715,6 @@ function calculateAndRenderPreview() {
   // Render to Receipt Preview
   document.getElementById("prev-inv-number").textContent = invNumber;
   document.getElementById("prev-inv-date").textContent = formatDisplayDate(dateVal);
-  document.getElementById("prev-inv-due-date").textContent = formatDisplayDate(dueDateVal);
   document.getElementById("prev-client-name").textContent = clientName;
   document.getElementById("prev-client-phone").textContent = clientPhone;
   document.getElementById("prev-client-address").textContent = clientAddress || "—";
@@ -735,7 +789,6 @@ async function saveCurrentInvoice() {
     id: document.getElementById("inv-id").value || undefined,
     invoiceNumber: document.getElementById("inv-number").value.trim() || generateInvoiceNumber(),
     date: document.getElementById("inv-date").value,
-    dueDate: document.getElementById("inv-due-date").value,
     servedBy: servedBy,
     adminName: servedBy,
     clientName: clientName,
@@ -777,10 +830,89 @@ async function saveCurrentInvoice() {
   }
 }
 
-function sendWhatsAppInvoice() {
+/* ==========================================================================
+   JPG RECEIPT GENERATION & EXPORT
+   ========================================================================== */
+async function generateReceiptJpg(filename = null) {
+  const receiptEl = document.getElementById("receipt-paper");
+  if (!receiptEl) {
+    showToast("Elemen struk tidak ditemukan!");
+    return null;
+  }
+
+  if (typeof html2canvas === "undefined") {
+    showToast("Library html2canvas sedang dimuat, mohon tunggu sebentar...");
+    return null;
+  }
+
+  try {
+    // Render receipt element to high-res canvas (2x scale for sharp text and crisp print)
+    const canvas = await html2canvas(receiptEl, {
+      scale: 2.2,
+      useCORS: true,
+      backgroundColor: "#ffffff",
+      logging: false,
+      windowWidth: receiptEl.scrollWidth + 80
+    });
+
+    const dataUrl = canvas.toDataURL("image/jpeg", 0.95);
+
+    // Download JPG file if filename requested
+    if (filename) {
+      const link = document.createElement("a");
+      link.download = filename.endsWith(".jpg") ? filename : `${filename}.jpg`;
+      link.href = dataUrl;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Attempt to copy image to clipboard so admin can paste (Ctrl+V) directly into WhatsApp Web
+    if (navigator.clipboard && window.ClipboardItem) {
+      canvas.toBlob((blob) => {
+        if (blob) {
+          navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]).catch(() => {
+            // Silently ignore clipboard permissions block in certain iframe/browsers
+          });
+        }
+      }, "image/png");
+    }
+
+    return { canvas, dataUrl };
+  } catch (err) {
+    console.error("Error generating receipt JPG:", err);
+    throw err;
+  }
+}
+
+async function downloadReceiptJpg() {
+  const invNumber = document.getElementById("inv-number").value.trim() || "INV";
+  const btn = document.getElementById("btn-download-jpg");
+  const originalText = btn ? btn.textContent : "";
+
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = "Membuat JPG...";
+  }
+
+  try {
+    const filename = `Struk-ZADA-${invNumber.replace(/[^a-zA-Z0-9_-]/g, "-")}.jpg`;
+    await generateReceiptJpg(filename);
+    showToast(`Gambar struk JPG berhasil diunduh! (${filename})`);
+  } catch (err) {
+    showToast("Gagal mengunduh gambar JPG.");
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = originalText;
+    }
+  }
+}
+
+async function sendWhatsAppInvoice() {
   const phone = document.getElementById("inv-client-phone").value.trim();
   const name = document.getElementById("inv-client-name").value.trim() || "Kak";
-  const invNumber = document.getElementById("inv-number").value.trim();
+  const invNumber = document.getElementById("inv-number").value.trim() || "INV";
   const dateStr = formatDisplayDate(document.getElementById("inv-date").value);
   const servedBy = (document.getElementById("inv-served-by")?.value || "Fatih").trim();
   const serviceTitle = document.getElementById("inv-service-title").value.trim();
@@ -790,6 +922,22 @@ function sendWhatsAppInvoice() {
   const status = document.getElementById("inv-status").value;
   const paymentMethod = document.getElementById("inv-payment-method").value;
   const notes = document.getElementById("inv-notes").value.trim();
+
+  // Format clean phone number (replace leading 0 or +62 with 62)
+  let cleanPhone = phone.replace(/[^0-9]/g, "");
+  if (cleanPhone.startsWith("0")) {
+    cleanPhone = "62" + cleanPhone.slice(1);
+  }
+
+  if (!cleanPhone || cleanPhone.length < 8) {
+    showToast("Harap isi No. WhatsApp Klien terlebih dahulu!");
+    const phoneInput = document.getElementById("inv-client-phone");
+    if (phoneInput) {
+      phoneInput.focus();
+      phoneInput.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    return;
+  }
 
   let statusText = "LUNAS";
   if (status === "dp") statusText = `DP Diterima, sisa ${remaining}`;
@@ -831,17 +979,29 @@ Jika ada pertanyaan atau konfirmasi jadwal, silakan langsung membalas pesan ini.
 Salam hangat,
 ZADA Studio`;
 
-  // Format clean phone number (replace leading 0 with 62)
-  let cleanPhone = phone.replace(/[^0-9]/g, "");
-  if (cleanPhone.startsWith("0")) {
-    cleanPhone = "62" + cleanPhone.slice(1);
+  const btnWa = document.getElementById("btn-wa-invoice");
+  const originalText = btnWa ? btnWa.textContent : "";
+  if (btnWa) {
+    btnWa.disabled = true;
+    btnWa.textContent = "Menyiapkan Gambar JPG...";
+  }
+
+  showToast("Mengunduh gambar struk JPG & membuka WhatsApp...");
+
+  try {
+    const filename = `Struk-ZADA-${invNumber.replace(/[^a-zA-Z0-9_-]/g, "-")}.jpg`;
+    await generateReceiptJpg(filename);
+  } catch (err) {
+    console.error("Gagal generate JPG struk:", err);
+  } finally {
+    if (btnWa) {
+      btnWa.disabled = false;
+      btnWa.textContent = originalText;
+    }
   }
 
   const encodedMsg = encodeURIComponent(message);
-  let waUrl = `https://wa.me/?text=${encodedMsg}`;
-  if (cleanPhone.length >= 9) {
-    waUrl = `https://wa.me/${cleanPhone}?text=${encodedMsg}`;
-  }
+  const waUrl = `https://wa.me/${cleanPhone}?text=${encodedMsg}`;
 
   window.open(waUrl, "_blank");
 }
@@ -952,7 +1112,6 @@ function loadInvoiceIntoEditor(invoiceData) {
   document.getElementById("inv-id").value = invoiceData.id || "";
   document.getElementById("inv-number").value = invoiceData.invoiceNumber || generateInvoiceNumber();
   document.getElementById("inv-date").value = invoiceData.date || getTodayDateString();
-  document.getElementById("inv-due-date").value = invoiceData.dueDate || getTodayDateString();
   if (document.getElementById("inv-served-by")) {
     document.getElementById("inv-served-by").value = invoiceData.servedBy || invoiceData.adminName || "Fatih";
   }
@@ -964,7 +1123,7 @@ function loadInvoiceIntoEditor(invoiceData) {
   document.getElementById("inv-service-title").value = invoiceData.serviceTitle || "Layanan Foto";
   document.getElementById("inv-discount").value = invoiceData.discount || 0;
   document.getElementById("inv-dp").value = invoiceData.downPayment || 0;
-  document.getElementById("inv-payment-method").value = invoiceData.paymentMethod || "Transfer BCA";
+  document.getElementById("inv-payment-method").value = invoiceData.paymentMethod || "QRIS EDC MANDIRI";
   document.getElementById("inv-status").value = invoiceData.paymentStatus || "lunas";
   document.getElementById("inv-notes").value = invoiceData.notes || "";
 
@@ -986,7 +1145,6 @@ function setupEventListeners() {
   [
     "inv-number",
     "inv-date",
-    "inv-due-date",
     "inv-served-by",
     "inv-client-name",
     "inv-client-phone",
@@ -1052,6 +1210,7 @@ function setupEventListeners() {
   // Action Buttons
   document.getElementById("btn-save-invoice")?.addEventListener("click", saveCurrentInvoice);
   document.getElementById("btn-print-invoice")?.addEventListener("click", () => window.print());
+  document.getElementById("btn-download-jpg")?.addEventListener("click", downloadReceiptJpg);
   document.getElementById("btn-wa-invoice")?.addEventListener("click", sendWhatsAppInvoice);
   document.getElementById("btn-reset-invoice")?.addEventListener("click", resetInvoiceForm);
 
